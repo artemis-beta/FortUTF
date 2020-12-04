@@ -19,4 +19,4 @@ jobs:
             cmake --build build
       - name: Run Tests
         run: |
-            for i in $(ls build/bin/*); do ./build/bin/$i; done
+            for i in $(ls build/bin/*); do ./$i; done
