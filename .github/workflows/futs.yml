@@ -1,0 +1,21 @@
+name: FORTRAN Unit Test Suite
+
+on: [push]
+
+jobs:
+  build: ${{ matrix.os }}
+  runs-on: ${{ matrix.os }}
+  strategy:
+    fail-fast: false
+    matrix:
+      os: ['ubuntu-latest', 'macos-latest']
+  
+  steps:
+    - uses: actions/checkout@v2
+    - name: Build Tests
+      run: |
+           cmake -Htests -Bbuild
+           cmake --build build
+    - name: Run Tests
+      run: |
+           for i in $(ls build/bin/*); do ./build/bin/$i; done
