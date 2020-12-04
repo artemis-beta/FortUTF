@@ -1,13 +1,16 @@
-name: FUTS Linux
+name: FUTS macOS
 
 on: [push]
 
 jobs:
   build: 
-    name: Ubuntu Latest
-    runs-on: 'ubuntu-latest'
+    name: 'macOS Latest'
+    runs-on: 'macos-latest'
+    
     steps:
       - uses: actions/checkout@v2
+      - name: Install GFortran macOS
+        run: brew install gfortran
       - name: Build Tests
         run: |
             cmake -Htests -Bbuild
