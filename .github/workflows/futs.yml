@@ -13,6 +13,9 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
+      - name: Install GFortran macOS
+        run: brew install gfortran
+        if: matrix.os == 'macos-latest'
       - name: Build Tests
         run: |
             cmake -Htests -Bbuild
