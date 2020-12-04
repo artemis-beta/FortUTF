@@ -2,8 +2,9 @@ MODULE FUTS_SUITE
     IMPLICIT NONE
 
     PUBLIC
-    INTEGER :: PASSED = 0 ! Number of Passed Tests
-    INTEGER :: TOTAL  = 0 ! Total Number of Tests
+    INTEGER :: FUTS_PASSED    = 0 ! Number of FUTS_PASSED Tests
+    INTEGER :: FUTS_TOTAL     = 0 ! FUTS_TOTAL Number of Tests
+    INTEGER :: FUTS_EXIT_CODE = 0 ! Test Suite Exit Code
 
     CHARACTER(LEN=100) :: IDENTIFIER ! String for Test Labels
 
