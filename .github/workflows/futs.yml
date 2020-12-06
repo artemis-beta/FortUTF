@@ -25,5 +25,5 @@ jobs:
             cmake -H. -Bbuild -DBUILD_EXAMPLES=ON
             cmake --build build
       - name: Run Demo Project Tests
-        run: ./build/bin/FUTS_Demo_Project_Tests
+        run: ./build/bin/DEMO_PROJ
 
