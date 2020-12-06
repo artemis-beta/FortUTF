@@ -169,8 +169,10 @@ MODULE FUTS_ASSERTIONS
 
         IF(CHAR_1 == CHAR_2) THEN
             CALL REGISTER_PASSED
+            WRITE(INFO, '(A, A, A, A)') "ASSERT_EQUAL: ", CHAR_1, " == ", CHAR_2 
         ELSE
             CALL REGISTER_FAILED
+            WRITE(INFO, '(A, A, A, A)') "ASSERT_EQUAL: ", CHAR_1, " != ", CHAR_2 
         END IF   
     END SUBROUTINE ASSERT_EQUAL_CHAR
     
@@ -197,6 +199,7 @@ MODULE FUTS_ASSERTIONS
 
         IF(PASSES) THEN
             CALL REGISTER_PASSED
+            WRITE(INFO, '(A, A, A, A)') "ASSERT_ALMOST_EQUAL: ", INT_1, " ~= ", INT_2
         ELSE
             CALL REGISTER_FAILED
         ENDIF
