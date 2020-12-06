@@ -60,7 +60,7 @@ MODULE FUTS_SUITE
                     PRINT_NAMED_FAILED_TESTS = .FALSE.
                 ENDIF
                 WRITE(*,*) "  - ", TEST_NAMES(IFAILED(I))
-                WRITE(*,*) REPEAT(" ", 10), TRIM(INFO_STRINGS(IFAILED(I)))
+                WRITE(*,*) REPEAT(" ", 10), TRIM(INFO_STRINGS(IFAILED(I))), NEW_LINE('A')
             ENDIF
         ENDDO
 
