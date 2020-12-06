@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build: 
-    name: Ubuntu Latest
+    name: Ubuntu Latest Tests
     runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v2
@@ -16,7 +16,9 @@ jobs:
         run: |
             for i in $(ls build/bin/*); do ./$i; done
   build_example:
-    name: Run Examples
+    name: Ubuntu Latest Example
+    runs-on: 'ubuntu-latest'
+    steps:
       - uses: actions/checkout@v2
       - name: Build Example Project
         run: |
