@@ -8,8 +8,14 @@ MODULE FUTF_ASSERTIONS
     CHARACTER(LEN=200), PRIVATE :: INFO
 
     INTERFACE ASSERT_EQUAL
-        MODULE PROCEDURE ASSERT_EQUAL_INT
+        MODULE PROCEDURE ASSERT_EQUAL_INT_1BYTE
         MODULE PROCEDURE ASSERT_EQUAL_INT_2BYTE
+        MODULE PROCEDURE ASSERT_EQUAL_INT_4BYTE
+        MODULE PROCEDURE ASSERT_EQUAL_INT_8BYTE
+        MODULE PROCEDURE ASSERT_EQUAL_INT_1BYTE_ARR
+        MODULE PROCEDURE ASSERT_EQUAL_INT_2BYTE_ARR
+        MODULE PROCEDURE ASSERT_EQUAL_INT_4BYTE_ARR
+        MODULE PROCEDURE ASSERT_EQUAL_INT_8BYTE_ARR
         MODULE PROCEDURE ASSERT_EQUAL_LOGICAL
         MODULE PROCEDURE ASSERT_EQUAL_REAL_8BYTE
         MODULE PROCEDURE ASSERT_EQUAL_REAL_4BYTE
@@ -82,9 +88,12 @@ MODULE FUTF_ASSERTIONS
 
     !--------------------- EQUIVALENCE: VAR_1 == VAR_2 -----------------------!
 
-    ! - INTEGER
-    SUBROUTINE ASSERT_EQUAL_INT(INT_1, INT_2)
-        INTEGER, INTENT(IN) :: INT_1, INT_2
+    ! ============================= INTEGER ================================= !
+    ! ****************************** SINGLE ********************************* !
+
+    ! - INTEGER(1) SINGLE
+    SUBROUTINE ASSERT_EQUAL_INT_1BYTE(INT_1, INT_2)
+        INTEGER(1), INTENT(IN) :: INT_1, INT_2
         IF(INT_1 == INT_2) THEN
             CALL REGISTER_PASSED
             WRITE(INFO, '(A, I0, A, I0)') "ASSERT_EQUAL: ", INT_1, " == ", INT_2 
@@ -93,20 +102,158 @@ MODULE FUTF_ASSERTIONS
             WRITE(INFO, '(A, I0, A, I0)') "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
         END IF   
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
-    END SUBROUTINE ASSERT_EQUAL_INT
+    END SUBROUTINE ASSERT_EQUAL_INT_1BYTE
 
-    ! - INTEGER(2)
+    ! - INTEGER(2) SINGLE
     SUBROUTINE ASSERT_EQUAL_INT_2BYTE(INT_1, INT_2)
         INTEGER(2), INTENT(IN) :: INT_1, INT_2
 
         IF(INT_1 == INT_2) THEN
             CALL REGISTER_PASSED
-            WRITE(INFO, '(A, F0.5, A, F0.5)') "ASSERT_EQUAL: ", INT_1, " == ", INT_2
+            WRITE(INFO, '(A, I0, A, I0)') "ASSERT_EQUAL: ", INT_1, " == ", INT_2
         ELSE
             CALL REGISTER_FAILED
-            WRITE(INFO, '(A, F0.5, A, F0.5)') "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
-        END IF   
+            WRITE(INFO, '(A, I0, A, I0)') "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
+        END IF
+        INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
     END SUBROUTINE ASSERT_EQUAL_INT_2BYTE
+
+    ! - INTEGER(4) SINGLE
+    SUBROUTINE ASSERT_EQUAL_INT_4BYTE(INT_1, INT_2)
+        INTEGER(4), INTENT(IN) :: INT_1, INT_2
+
+        IF(INT_1 == INT_2) THEN
+            CALL REGISTER_PASSED
+            WRITE(INFO, '(A, I0, A, I0)') "ASSERT_EQUAL: ", INT_1, " == ", INT_2
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(INFO, '(A, I0, A, I0)') "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
+        END IF
+        INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+    END SUBROUTINE ASSERT_EQUAL_INT_4BYTE
+
+    ! - INTEGER(8) SINGLE
+    SUBROUTINE ASSERT_EQUAL_INT_8BYTE(INT_1, INT_2)
+        INTEGER(8), INTENT(IN) :: INT_1, INT_2
+
+        IF(INT_1 == INT_2) THEN
+            CALL REGISTER_PASSED
+            WRITE(INFO, '(A, I0, A, I0)') "ASSERT_EQUAL: ", INT_1, " == ", INT_2
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(INFO, '(A, I0, A, I0)') "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
+        END IF
+        INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+    END SUBROUTINE ASSERT_EQUAL_INT_8BYTE
+
+    ! ******************************* ARRAY ********************************* !
+
+    ! - INTEGER(1) ARRAY
+    SUBROUTINE ASSERT_EQUAL_INT_1BYTE_ARR(INT_1, INT_2)
+        INTEGER(1), DIMENSION(:), INTENT(IN) :: INT_1, INT_2
+        INTEGER :: I
+        LOGICAL :: COMPARE = .TRUE.
+
+        IF(SIZE(INT_1) /= SIZE(INT_2)) THEN
+            COMPARE = .FALSE.
+        ELSE
+            DO I=1, SIZE(INT_1)
+                IF(INT_1(I) /= INT_2(I)) THEN
+                    COMPARE = .FALSE.
+                ENDIF
+            ENDDO
+        ENDIF
+
+        IF(COMPARE) THEN
+            CALL REGISTER_PASSED
+            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " == ", INT_2 
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
+        END IF   
+        INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+    END SUBROUTINE ASSERT_EQUAL_INT_1BYTE_ARR
+
+    ! - INTEGER(2) ARRAY
+    SUBROUTINE ASSERT_EQUAL_INT_2BYTE_ARR(INT_1, INT_2)
+        INTEGER(2), DIMENSION(:), INTENT(IN) :: INT_1, INT_2
+
+        INTEGER :: I
+        LOGICAL :: COMPARE = .TRUE.
+
+        IF(SIZE(INT_1) /= SIZE(INT_2)) THEN
+            COMPARE = .FALSE.
+        ELSE
+            DO I=1, SIZE(INT_1)
+                IF(INT_1(I) /= INT_2(I)) THEN
+                    COMPARE = .FALSE.
+                ENDIF
+            ENDDO
+        ENDIF
+
+        IF(COMPARE) THEN
+            CALL REGISTER_PASSED
+            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " == ", INT_2
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
+        END IF
+        INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+    END SUBROUTINE ASSERT_EQUAL_INT_2BYTE_ARR
+
+    ! - INTEGER(4) ARRAY
+    SUBROUTINE ASSERT_EQUAL_INT_4BYTE_ARR(INT_1, INT_2)
+        INTEGER(4), DIMENSION(:), INTENT(IN) :: INT_1, INT_2
+
+        INTEGER :: I
+        LOGICAL :: COMPARE = .TRUE.
+
+        IF(SIZE(INT_1) /= SIZE(INT_2)) THEN
+            COMPARE = .FALSE.
+        ELSE
+            DO I=1, SIZE(INT_1)
+                IF(INT_1(I) /= INT_2(I)) THEN
+                    COMPARE = .FALSE.
+                ENDIF
+            ENDDO
+        ENDIF
+
+        IF(COMPARE) THEN
+            CALL REGISTER_PASSED
+            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " == ", INT_2
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " != ", INT_2
+        END IF
+        INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+    END SUBROUTINE ASSERT_EQUAL_INT_4BYTE_ARR
+
+    ! - INTEGER(8) ARRAY
+    SUBROUTINE ASSERT_EQUAL_INT_8BYTE_ARR(INT_1, INT_2)
+        INTEGER(8), DIMENSION(:), INTENT(IN) :: INT_1, INT_2
+
+        INTEGER :: I
+        LOGICAL :: COMPARE = .TRUE.
+
+        IF(SIZE(INT_1) /= SIZE(INT_2)) THEN
+            COMPARE = .FALSE.
+        ELSE
+            DO I=1, SIZE(INT_1)
+                IF(INT_1(I) /= INT_2(I)) THEN
+                    COMPARE = .FALSE.
+                ENDIF
+            ENDDO
+        ENDIF
+
+        IF(COMPARE) THEN
+            CALL REGISTER_PASSED
+            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " == ", INT_2
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
+        END IF
+        INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+    END SUBROUTINE ASSERT_EQUAL_INT_8BYTE_ARR
 
     ! - REAL(8)
     SUBROUTINE ASSERT_EQUAL_REAL_8BYTE(REAL_1, REAL_2)
@@ -428,9 +575,12 @@ MODULE FUTF_ASSERTIONS
 
         IF(INT_1 > INT_2) THEN
             CALL REGISTER_PASSED
+            WRITE(INFO, '(A, I0, A, I0)') "ASSERT_NOT_EQUAL: ", INT_1, " > ", INT_2
         ELSE
             CALL REGISTER_FAILED
+            WRITE(INFO, '(A, I0, A, I0)') "ASSERT_NOT_EQUAL: ", INT_1, " <= ", INT_2
         END IF
+        INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
     END SUBROUTINE ASSERT_GREATER_THAN_INT
 
     SUBROUTINE ASSERT_GREATER_THAN_INT_2BYTE(INT_1, INT_2)
@@ -438,9 +588,12 @@ MODULE FUTF_ASSERTIONS
 
         IF(INT_1 > INT_2) THEN
             CALL REGISTER_PASSED
+            WRITE(INFO, '(A, I0, A, I0)') "ASSERT_NOT_EQUAL: ", INT_1, " > ", INT_2
         ELSE
             CALL REGISTER_FAILED
-        END IF   
+            WRITE(INFO, '(A, I0, A, I0)') "ASSERT_NOT_EQUAL: ", INT_1, " <= ", INT_2
+        END IF
+        INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO)) 
     END SUBROUTINE ASSERT_GREATER_THAN_INT_2BYTE
 
     SUBROUTINE ASSERT_GREATER_THAN_REAL_4BYTE(REAL_1, REAL_2)
