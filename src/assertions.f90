@@ -74,6 +74,15 @@ MODULE FUTS_ASSERTIONS
     
     CONTAINS
 
+    !-------------------------------------------------------------------------!
+    !                                                                         !
+    !                          COMPARISON OPERATIONS                          !
+    !                                                                         !
+    !-------------------------------------------------------------------------!
+
+    !--------------------- EQUIVALENCE: VAR_1 == VAR_2 -----------------------!
+
+    ! - INTEGER
     SUBROUTINE ASSERT_EQUAL_INT(INT_1, INT_2)
         INTEGER, INTENT(IN) :: INT_1, INT_2
 
@@ -87,6 +96,20 @@ MODULE FUTS_ASSERTIONS
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, TRIM(INFO), LEN(TRIM(INFO)))
     END SUBROUTINE ASSERT_EQUAL_INT
 
+    ! - INTEGER(2)
+    SUBROUTINE ASSERT_EQUAL_INT_2BYTE(INT_1, INT_2)
+        INTEGER(2), INTENT(IN) :: INT_1, INT_2
+
+        IF(INT_1 == INT_2) THEN
+            CALL REGISTER_PASSED
+            WRITE(INFO, '(A, F0.5, A, F0.5)') "ASSERT_EQUAL: ", INT_1, " == ", INT_2
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(INFO, '(A, F0.5, A, F0.5)') "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
+        END IF   
+    END SUBROUTINE ASSERT_EQUAL_INT_2BYTE
+
+    ! - REAL(8)
     SUBROUTINE ASSERT_EQUAL_REAL_8BYTE(REAL_1, REAL_2)
         REAL(8), INTENT(IN) :: REAL_1, REAL_2
 
@@ -100,6 +123,7 @@ MODULE FUTS_ASSERTIONS
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, TRIM(INFO), LEN(TRIM(INFO)))
     END SUBROUTINE ASSERT_EQUAL_REAL_8BYTE
 
+    ! - REAL(4)
     SUBROUTINE ASSERT_EQUAL_REAL_4BYTE(REAL_1, REAL_2)
         REAL(4), INTENT(IN) :: REAL_1, REAL_2
 
@@ -113,36 +137,33 @@ MODULE FUTS_ASSERTIONS
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, TRIM(INFO), LEN(TRIM(INFO)))
     END SUBROUTINE ASSERT_EQUAL_REAL_4BYTE
 
+    ! - COMPLEX
     SUBROUTINE ASSERT_EQUAL_COMPLEX(COMP_1, COMP_2)
         COMPLEX, INTENT(IN) :: COMP_1, COMP_2
 
         IF(COMP_1 == COMP_2) THEN
             CALL REGISTER_PASSED
+            WRITE(INFO, '(A, F0.5, A, F0.5)') "ASSERT_EQUAL: ", COMP_1, " == ", COMP_2 
         ELSE
             CALL REGISTER_FAILED
+            WRITE(INFO, '(A, F0.5, A, F0.5)') "ASSERT_EQUAL: ", COMP_1, " != ", COMP_2 
         END IF   
     END SUBROUTINE ASSERT_EQUAL_COMPLEX
 
+    ! - LOGICAL
     SUBROUTINE ASSERT_EQUAL_LOGICAL(BOOL_1, BOOL_2)
         LOGICAL, INTENT(IN) :: BOOL_1, BOOL_2
 
         IF(BOOL_1 .EQV. BOOL_2) THEN
             CALL REGISTER_PASSED
+            WRITE(INFO, '(A, F0.5, A, F0.5)') "ASSERT_EQUAL: ", BOOL_1, " == ", BOOL_2 
         ELSE
             CALL REGISTER_FAILED
+            WRITE(INFO, '(A, F0.5, A, F0.5)') "ASSERT_EQUAL: ", BOOL_1, " != ", BOOL_2 
         END IF   
     END SUBROUTINE ASSERT_EQUAL_LOGICAL
 
-    SUBROUTINE ASSERT_EQUAL_INT_2BYTE(INT_1, INT_2)
-        INTEGER(2), INTENT(IN) :: INT_1, INT_2
-
-        IF(INT_1 == INT_2) THEN
-            CALL REGISTER_PASSED
-        ELSE
-            CALL REGISTER_FAILED
-        END IF   
-    END SUBROUTINE ASSERT_EQUAL_INT_2BYTE
-
+    ! - CHARACTER
     SUBROUTINE ASSERT_EQUAL_CHAR(CHAR_1, CHAR_2)
         CHARACTER, INTENT(IN) :: CHAR_1, CHAR_2
 
