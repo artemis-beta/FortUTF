@@ -1,4 +1,4 @@
-# FORTRAN Unit Test Suite
+# FORTRAN Unit Test Framework
 
 A purely FORTRANic framework for testing FORTRAN code
 
