@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Tests
         run: |
-            cmake -Htests -Bbuild
+            cmake -H. -Bbuild -DBUILD_TESTS=ON
             cmake --build build
       - name: Run Tests
         run: |
@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Example Project
         run: |
-            cmake -Hexamples/demo_project -Bbuild
+            cmake -H. -Bbuild -DBUILD_EXAMPLES=ON
             cmake --build build
       - name: Run Demo Project Tests
         run: ./build/bin/FUTS_Demo_Project_Tests
