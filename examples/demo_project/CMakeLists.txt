@@ -15,5 +15,5 @@ SET(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
 FILE(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.f90)
 
 INCLUDE(${FORTUTF_ROOT}/cmake/fortutf.cmake)
-FortUFT_Find_Tests()
+FortUTF_Find_Tests()
 

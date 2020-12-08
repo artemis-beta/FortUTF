@@ -1,4 +1,10 @@
-FUNCTION(FortUFT_FindTests)
+FUNCTION(JOIN VALUES GLUE OUTPUT)
+  STRING (REGEX REPLACE "([^\\]|^);" "\\1${GLUE}" _TMP_STR "${VALUES}")
+  STRING (REGEX REPLACE "[\\](.)" "\\1" _TMP_STR "${_TMP_STR}")
+  SET (${OUTPUT} "${_TMP_STR}" PARENT_SCOPE)
+ENDFUNCTION()
+
+FUNCTION(FortUTF_Find_Tests)
 	MESSAGE(STATUS "[FortUTF]")
 	MESSAGE(STATUS "\tFinding tests in directory: ${TEST_DIR}")
     IF(NOT TEST_DIR)
@@ -31,7 +37,6 @@ FUNCTION(FortUFT_FindTests)
             OUTPUT_VARIABLE TEST_MODULES
     )
 
-
     STRING(REGEX REPLACE "\n" " " TEST_SUBROUTINES "${TEST_SUBROUTINES}")
     STRING(REGEX REPLACE "\n" " " TEST_MODULES "${TEST_MODULES}")
     STRING(REGEX REPLACE " SUBROUTINE " " " TEST_SUBROUTINES "${TEST_SUBROUTINES}")
@@ -48,6 +53,8 @@ FUNCTION(FortUFT_FindTests)
     LIST(REMOVE_ITEM TEST_SUBROUTINES_LIST subroutine)
     LIST(REMOVE_ITEM TEST_MODULES_LIST "MODULE")
     LIST(REMOVE_ITEM TEST_MODULES_LIST module)
+    JOIN("${TEST_SUBROUTINES_LIST}" " " TEST_SUBROUTINES)
+    JOIN("${TEST_MODULES_LIST}" " " TEST_MODULES)
     MESSAGE(STATUS "\tTests Found: ")
     FOREACH(SUBROOT ${TEST_SUBROUTINES_LIST})
 	    MESSAGE(STATUS "\t  - ${SUBROOT}")
@@ -57,7 +64,7 @@ FUNCTION(FortUFT_FindTests)
 	    COMMAND bash -c "rm ${TEST_DIR}/run_tests.f90;echo \"PROGRAM TEST_${PROJECT_NAME}\" >> ${TEST_DIR}/run_tests.f90; \
 	                    echo \"    USE FORTUTF\" >> ${TEST_DIR}/run_tests.f90; \
                         for i in ${TEST_MODULES}; do echo \"    USE $i\" >> ${TEST_DIR}/run_tests.f90; done; \
-	                    for i in ${TEST_SUBROUTINES}; do echo \"    CALL $i\" >> ${TEST_DIR}/run_tests.f90; done; \
+                        for i in ${TEST_SUBROUTINES}; do echo \"    CALL $i\" >> ${TEST_DIR}/run_tests.f90; done; \
 	                    echo \"    CALL TEST_SUMMARY\" >> ${TEST_DIR}/run_tests.f90; \
 	                    echo \"END PROGRAM\" >> ${TEST_DIR}/run_tests.f90"
    )

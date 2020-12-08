@@ -22,7 +22,9 @@ SET_TARGET_PROPERTIES(
     )
 
 IF(BUILD_TESTS)
-    ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/tests)
+        INCLUDE(${CMAKE_SOURCE_DIR}/cmake/fortutf.cmake)
+        FILE(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/tests/*.f90)
+        FortUTF_Find_Tests()
 ENDIF()
 
 IF(BUILD_EXAMPLES)

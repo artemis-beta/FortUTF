@@ -3,15 +3,16 @@ SUBROUTINE TEST_ASSERT_EQ_PASS_INT_4BYTE
     INTEGER CODE_STATUS, X, Y
     X = 4
     Y = 4
+    
+    CALL TAG_TEST("TEST_ASSERT_EQ_PASS_INT_4BYTE")
 
     CODE_STATUS = FUTF_PASSED
 
+    ! As this test should pass we can leave the
+    ! exit code for the framework as is
+
     CALL ASSERT_EQUAL(X, Y)
 
-    IF(.NOT. FUTF_PASSED == CODE_STATUS+1) THEN
-        WRITE(*,*) "ERROR: 'TEST_ASSERT_EQ_PASS_INT_4BYTE' FAILED"
-        STOP 1
-    ENDIF
 END SUBROUTINE TEST_ASSERT_EQ_PASS_INT_4BYTE
 
 SUBROUTINE TEST_ASSERT_EQ_PASS_INT_8BYTE
@@ -22,10 +23,9 @@ SUBROUTINE TEST_ASSERT_EQ_PASS_INT_8BYTE
     Y = 4D0
     CODE_STATUS = FUTF_PASSED
 
+    ! As this test should pass we can leave the
+    ! exit code for the framework as is
+
     CALL ASSERT_EQUAL(X, Y)
 
-    IF(.NOT. FUTF_PASSED == CODE_STATUS+1) THEN
-        WRITE(*,*) "ERROR: 'TEST_ASSERT_EQ_PASS_INT_8BYTE' FAILED"
-        STOP 1
-    ENDIF
 END SUBROUTINE TEST_ASSERT_EQ_PASS_INT_8BYTE
