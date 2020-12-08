@@ -1,3 +1,4 @@
 *.mod
 build/
+tests/run_tests.f90
 *.o

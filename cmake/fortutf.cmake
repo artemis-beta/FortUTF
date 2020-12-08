@@ -78,6 +78,7 @@ FUNCTION(FortUTF_Find_Tests)
    ENDIF()
 
    IF(SRC_LIBRARY)
+       MESSAGE(STATUS "\tLinking library: ${SRC_LIBRARY}")
        TARGET_LINK_LIBRARIES(
                ${PROJECT_NAME}_Tests PUBLIC ${SRC_LIBRARY}
        )
