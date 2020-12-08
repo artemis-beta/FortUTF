@@ -22,8 +22,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Example Project
         run: |
-            cmake -H. -Bbuild -DBUILD_EXAMPLES=ON
+            cd examples/demo_project
+            cmake -H. -Bbuild
             cmake --build build
       - name: Run Demo Project Tests
-        run: ./build/bin/DEMO_PROJ
+        run: ./build/DEMO_PROJ
 

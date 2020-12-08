@@ -1,13 +1,14 @@
-MACRO(FIND_TESTS)
+FUNCTION(FortUFT_FindTests)
 	MESSAGE(STATUS "[FortUTF]")
 	MESSAGE(STATUS "\tFinding tests in directory: ${TEST_DIR}")
     IF(NOT TEST_DIR)
         SET(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
     ENDIF()
 
-    GET_FILENAME_COMPONENT(FUTS_SRC_DIR ../src ABSOLUTE)
+    GET_FILENAME_COMPONENT(FORTUTF_DIR ${CMAKE_CURRENT_FUNCTION_LIST_FILE} DIRECTORY)
+    GET_FILENAME_COMPONENT(FORTUTF_DIR ${FORTUTF_DIR} DIRECTORY)
 
-    FILE(GLOB FUTS_SRCS ${FUTS_SRC_DIR}/*.f90)
+    FILE(GLOB FORTUTF_SRCS ${FORTUTF_DIR}/src/*.f90)
 
     IF(NOT SRC_FILES AND NOT SRC_LIBRARY)
 	    MESSAGE(FATAL_ERROR "Variable SRC_FILES or SRC_LIBRARY must be set")
@@ -21,36 +22,62 @@ MACRO(FIND_TESTS)
     ENDFOREACH()
 
     EXECUTE_PROCESS(
-	    COMMAND bash -c "for i in ${TEST_LIST}; do cat $i | grep \"SUBROUTINE\" | rev | cut -d ' ' -f 1 | rev; done"
+	    COMMAND bash -c "for i in ${TEST_LIST}; do cat $i | grep -i \"SUBROUTINE\" | rev | cut -d ' ' -f 1 | rev; done"
 	    OUTPUT_VARIABLE TEST_SUBROUTINES
     )
+
+    EXECUTE_PROCESS(
+            COMMAND bash -c "for i in ${TEST_LIST}; do cat $i | grep -i \"MODULE\" | rev | cut -d ' ' -f 1 | rev; done"
+            OUTPUT_VARIABLE TEST_MODULES
+    )
+
+
     STRING(REGEX REPLACE "\n" " " TEST_SUBROUTINES "${TEST_SUBROUTINES}")
+    STRING(REGEX REPLACE "\n" " " TEST_MODULES "${TEST_MODULES}")
     STRING(REGEX REPLACE " SUBROUTINE " " " TEST_SUBROUTINES "${TEST_SUBROUTINES}")
+    STRING(REGEX REPLACE " subroutine " " " TEST_SUBROUTINES "${TEST_SUBROUTINES}")
+    STRING(REGEX REPLACE " MODULE " " " TEST_MODULES "${TEST_MODULES}")
+    STRING(REGEX REPLACE " module " " " TEST_MODULES "${TEST_MODULES}")
     SET(TEST_SUBROUTINES_LIST "${TEST_SUBROUTINES}")
+    SET(TEST_MODULES_LIST "${TEST_MODULES}")
     SEPARATE_ARGUMENTS(TEST_SUBROUTINES_LIST)
+    SEPARATE_ARGUMENTS(TEST_MODULES_LIST)
     LIST(REMOVE_DUPLICATES TEST_SUBROUTINES_LIST)
+    LIST(REMOVE_DUPLICATES TEST_MODULES_LIST)
     LIST(REMOVE_ITEM TEST_SUBROUTINES_LIST SUBROUTINE)
+    LIST(REMOVE_ITEM TEST_SUBROUTINES_LIST subroutine)
+    LIST(REMOVE_ITEM TEST_MODULES_LIST "MODULE")
+    LIST(REMOVE_ITEM TEST_MODULES_LIST module)
     MESSAGE(STATUS "\tTests Found: ")
     FOREACH(SUBROOT ${TEST_SUBROUTINES_LIST})
 	    MESSAGE(STATUS "\t  - ${SUBROOT}")
     ENDFOREACH()
 
     EXECUTE_PROCESS(
-	    COMMAND bash -c "echo \"PROGRAM TEST_${PROJECT_NAME}\" >> ${TEST_DIR}/run_tests.f90"
-	    COMMAND bash -c "echo \"    USE FORTUTF\" >> ${TEST_DIR}/run_tests.f90"
-	    COMMAND bash -c "for i in ${TEST_SUBROUTINES}; do echo \"    CALL $i\" >> ${TEST_DIR}/run_tests.f90; done"
-	    COMMAND bash -c "echo \"    CALL TEST_SUMMARY\" >> ${TEST_DIR}/run_tests.f90"
-	    COMMAND bash -c "echo \"END PROGRAM\" >> ${TEST_DIR}/run_tests.f90"
+	    COMMAND bash -c "rm ${TEST_DIR}/run_tests.f90;echo \"PROGRAM TEST_${PROJECT_NAME}\" >> ${TEST_DIR}/run_tests.f90; \
+	                    echo \"    USE FORTUTF\" >> ${TEST_DIR}/run_tests.f90; \
+                        for i in ${TEST_MODULES}; do echo \"    USE $i\" >> ${TEST_DIR}/run_tests.f90; done; \
+	                    for i in ${TEST_SUBROUTINES}; do echo \"    CALL $i\" >> ${TEST_DIR}/run_tests.f90; done; \
+	                    echo \"    CALL TEST_SUMMARY\" >> ${TEST_DIR}/run_tests.f90; \
+	                    echo \"END PROGRAM\" >> ${TEST_DIR}/run_tests.f90"
    )
 
+   ADD_LIBRARY(FORTUTF ${FORTUTF_SRCS})
+
    IF(SRC_FILES)
-	   ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${SRC_FILES} ${FUTS_SRCS} ${TEST_LIST} ${TEST_DIR}/run_tests.f90)
+	   ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${SRC_FILES} ${FORTUTF_SRCS} ${TEST_LIST} ${TEST_DIR}/run_tests.f90)
    ELSE()
-	   ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${SRC_FILES} ${FUTS_SRCS} ${TEST_DIR}/run_tests.f90)
+	   ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${SRC_FILES} ${FORTUTF_SRCS} ${TEST_DIR}/run_tests.f90)
    ENDIF()
 
    IF(SRC_LIBRARY)
-	TARGET_LINK_LIBRARIES(${PROJECT_NAME} PUBLIC ${SRC_LIBRARY})
+       TARGET_LINK_LIBRARIES(
+               ${PROJECT_NAME}_Tests PUBLIC ${SRC_LIBRARY}
+       )
    ENDIF()
 
-ENDMACRO()
+   TARGET_LINK_LIBRARIES(
+           ${PROJECT_NAME}_Tests PUBLIC FORTUTF
+   )
+
+ENDFUNCTION()
