@@ -5,87 +5,89 @@ FUNCTION(JOIN VALUES GLUE OUTPUT)
 ENDFUNCTION()
 
 FUNCTION(FortUTF_Find_Tests)
-	MESSAGE(STATUS "[FortUTF]")
-	MESSAGE(STATUS "\tFinding tests in directory: ${TEST_DIR}")
-    IF(NOT TEST_DIR)
-        SET(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
-    ENDIF()
+        MESSAGE(STATUS "[FortUTF]")
+        MESSAGE(STATUS "\tFinding tests in directory: ${TEST_DIR}")
+        IF(NOT TEST_DIR)
+                SET(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
+        ENDIF()
 
-    GET_FILENAME_COMPONENT(FORTUTF_DIR ${CMAKE_CURRENT_FUNCTION_LIST_FILE} DIRECTORY)
-    GET_FILENAME_COMPONENT(FORTUTF_DIR ${FORTUTF_DIR} DIRECTORY)
+        GET_FILENAME_COMPONENT(FORTUTF_DIR ${CMAKE_CURRENT_FUNCTION_LIST_FILE} DIRECTORY)
+        GET_FILENAME_COMPONENT(FORTUTF_DIR ${FORTUTF_DIR} DIRECTORY)
 
-    FILE(GLOB FORTUTF_SRCS ${FORTUTF_DIR}/src/*.f90)
+        FILE(GLOB FORTUTF_SRCS ${FORTUTF_DIR}/src/*.f90)
 
-    IF(NOT SRC_FILES AND NOT SRC_LIBRARY)
-	    MESSAGE(FATAL_ERROR "Variable SRC_FILES or SRC_LIBRARY must be set")
-    ENDIF()
+        IF(NOT SRC_FILES AND NOT SRC_LIBRARY)
+                MESSAGE(FATAL_ERROR "Variable SRC_FILES or SRC_LIBRARY must be set")
+        ENDIF()
 
-    FILE(GLOB TEST_LIST ${TEST_DIR}/test_*.f90)
+        FILE(GLOB_RECURSE TEST_LIST ${TEST_DIR}/test_*.f90)
 
-    MESSAGE(STATUS "\tTests Files Found: ")
-    FOREACH(TEST_NAME ${TEST_LIST})
-	    MESSAGE(STATUS "\t  - ${TEST_NAME}")
-    ENDFOREACH()
+        JOIN("${TEST_LIST}" " " TEST_LIST_ARG)
 
-    EXECUTE_PROCESS(
-	    COMMAND bash -c "for i in ${TEST_LIST}; do cat $i | grep -i \"SUBROUTINE\" | rev | cut -d ' ' -f 1 | rev; done"
-	    OUTPUT_VARIABLE TEST_SUBROUTINES
-    )
+        MESSAGE(STATUS "\tTests Files Found: ")
+        FOREACH(TEST_NAME ${TEST_LIST})
+                MESSAGE(STATUS "\t  - ${TEST_NAME}")
+        ENDFOREACH()
 
-    EXECUTE_PROCESS(
-            COMMAND bash -c "for i in ${TEST_LIST}; do cat $i | grep -i \"MODULE\" | rev | cut -d ' ' -f 1 | rev; done"
-            OUTPUT_VARIABLE TEST_MODULES
-    )
+        EXECUTE_PROCESS(
+                COMMAND bash -c "for i in ${TEST_LIST_ARG}; do cat $i | grep -i \"SUBROUTINE\" | rev | cut -d ' ' -f 1 | rev; done"
+                OUTPUT_VARIABLE TEST_SUBROUTINES
+        )
 
-    STRING(REGEX REPLACE "\n" " " TEST_SUBROUTINES "${TEST_SUBROUTINES}")
-    STRING(REGEX REPLACE "\n" " " TEST_MODULES "${TEST_MODULES}")
-    STRING(REGEX REPLACE " SUBROUTINE " " " TEST_SUBROUTINES "${TEST_SUBROUTINES}")
-    STRING(REGEX REPLACE " subroutine " " " TEST_SUBROUTINES "${TEST_SUBROUTINES}")
-    STRING(REGEX REPLACE " MODULE " " " TEST_MODULES "${TEST_MODULES}")
-    STRING(REGEX REPLACE " module " " " TEST_MODULES "${TEST_MODULES}")
-    SET(TEST_SUBROUTINES_LIST "${TEST_SUBROUTINES}")
-    SET(TEST_MODULES_LIST "${TEST_MODULES}")
-    SEPARATE_ARGUMENTS(TEST_SUBROUTINES_LIST)
-    SEPARATE_ARGUMENTS(TEST_MODULES_LIST)
-    LIST(REMOVE_DUPLICATES TEST_SUBROUTINES_LIST)
-    LIST(REMOVE_DUPLICATES TEST_MODULES_LIST)
-    LIST(REMOVE_ITEM TEST_SUBROUTINES_LIST SUBROUTINE)
-    LIST(REMOVE_ITEM TEST_SUBROUTINES_LIST subroutine)
-    LIST(REMOVE_ITEM TEST_MODULES_LIST "MODULE")
-    LIST(REMOVE_ITEM TEST_MODULES_LIST module)
-    JOIN("${TEST_SUBROUTINES_LIST}" " " TEST_SUBROUTINES)
-    JOIN("${TEST_MODULES_LIST}" " " TEST_MODULES)
-    MESSAGE(STATUS "\tTests Found: ")
-    FOREACH(SUBROOT ${TEST_SUBROUTINES_LIST})
-	    MESSAGE(STATUS "\t  - ${SUBROOT}")
-    ENDFOREACH()
+        EXECUTE_PROCESS(
+                COMMAND bash -c "for i in ${TEST_LIST_ARG}; do cat $i | grep -i \"MODULE\" | rev | cut -d ' ' -f 1 | rev; done"
+                OUTPUT_VARIABLE TEST_MODULES
+        )
 
-    EXECUTE_PROCESS(
-	    COMMAND bash -c "rm -f ${TEST_DIR}/run_tests.f90;echo \"PROGRAM TEST_${PROJECT_NAME}\" >> ${TEST_DIR}/run_tests.f90; \
-	                    echo \"    USE FORTUTF\" >> ${TEST_DIR}/run_tests.f90; \
-                        for i in ${TEST_MODULES}; do echo \"    USE $i\" >> ${TEST_DIR}/run_tests.f90; done; \
-                        for i in ${TEST_SUBROUTINES}; do echo \"    CALL $i\" >> ${TEST_DIR}/run_tests.f90; done; \
-	                    echo \"    CALL TEST_SUMMARY\" >> ${TEST_DIR}/run_tests.f90; \
-	                    echo \"END PROGRAM\" >> ${TEST_DIR}/run_tests.f90"
-   )
+        STRING(REGEX REPLACE "\n" " " TEST_SUBROUTINES "${TEST_SUBROUTINES}")
+        STRING(REGEX REPLACE "\n" " " TEST_MODULES "${TEST_MODULES}")
+        STRING(REGEX REPLACE " SUBROUTINE " " " TEST_SUBROUTINES "${TEST_SUBROUTINES}")
+        STRING(REGEX REPLACE " subroutine " " " TEST_SUBROUTINES "${TEST_SUBROUTINES}")
+        STRING(REGEX REPLACE " MODULE " " " TEST_MODULES "${TEST_MODULES}")
+        STRING(REGEX REPLACE " module " " " TEST_MODULES "${TEST_MODULES}")
+        SET(TEST_SUBROUTINES_LIST "${TEST_SUBROUTINES}")
+        SET(TEST_MODULES_LIST "${TEST_MODULES}")
+        SEPARATE_ARGUMENTS(TEST_SUBROUTINES_LIST)
+        SEPARATE_ARGUMENTS(TEST_MODULES_LIST)
+        LIST(REMOVE_DUPLICATES TEST_SUBROUTINES_LIST)
+        LIST(REMOVE_DUPLICATES TEST_MODULES_LIST)
+        LIST(REMOVE_ITEM TEST_SUBROUTINES_LIST SUBROUTINE)
+        LIST(REMOVE_ITEM TEST_SUBROUTINES_LIST subroutine)
+        LIST(REMOVE_ITEM TEST_MODULES_LIST "MODULE")
+        LIST(REMOVE_ITEM TEST_MODULES_LIST module)
+        JOIN("${TEST_SUBROUTINES_LIST}" " " TEST_SUBROUTINES)
+        JOIN("${TEST_MODULES_LIST}" " " TEST_MODULES)
+        MESSAGE(STATUS "\tTests Found: ")
+        FOREACH(SUBROOT ${TEST_SUBROUTINES_LIST})
+                MESSAGE(STATUS "\t  - ${SUBROOT}")
+        ENDFOREACH()
 
-   ADD_LIBRARY(FORTUTF ${FORTUTF_SRCS})
+        EXECUTE_PROCESS(
+                COMMAND bash -c "rm -f ${TEST_DIR}/run_tests.f90;echo \"PROGRAM TEST_${PROJECT_NAME}\" >> ${TEST_DIR}/run_tests.f90; \
+                                echo \"    USE FORTUTF\" >> ${TEST_DIR}/run_tests.f90; \
+                                for i in ${TEST_MODULES}; do echo \"    USE $i\" >> ${TEST_DIR}/run_tests.f90; done; \
+                                for i in ${TEST_SUBROUTINES}; do echo \"    CALL $i\" >> ${TEST_DIR}/run_tests.f90; done; \
+                                echo \"    CALL TEST_SUMMARY\" >> ${TEST_DIR}/run_tests.f90; \
+                                echo \"END PROGRAM\" >> ${TEST_DIR}/run_tests.f90"
+        )
 
-   IF(SRC_FILES)
-	   ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${SRC_FILES} ${FORTUTF_SRCS} ${TEST_LIST} ${TEST_DIR}/run_tests.f90)
-   ELSE()
-	   ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${SRC_FILES} ${FORTUTF_SRCS} ${TEST_DIR}/run_tests.f90)
-   ENDIF()
+        ADD_LIBRARY(FORTUTF ${FORTUTF_SRCS})
 
-   IF(SRC_LIBRARY)
-       MESSAGE(STATUS "\tLinking library: ${SRC_LIBRARY}")
-       TARGET_LINK_LIBRARIES(
-               ${PROJECT_NAME}_Tests PUBLIC ${SRC_LIBRARY}
-       )
-   ENDIF()
+        IF(SRC_FILES)
+                ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${SRC_FILES} ${FORTUTF_SRCS} ${TEST_LIST} ${TEST_DIR}/run_tests.f90)
+        ELSE()
+                ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${SRC_FILES} ${FORTUTF_SRCS} ${TEST_DIR}/run_tests.f90)
+        ENDIF()
 
-   TARGET_LINK_LIBRARIES(
-           ${PROJECT_NAME}_Tests PUBLIC FORTUTF
-   )
+        IF(SRC_LIBRARY)
+        MESSAGE(STATUS "\tLinking library: ${SRC_LIBRARY}")
+        TARGET_LINK_LIBRARIES(
+                ${PROJECT_NAME}_Tests PUBLIC ${SRC_LIBRARY}
+        )
+        ENDIF()
+
+        TARGET_LINK_LIBRARIES(
+                ${PROJECT_NAME}_Tests PUBLIC FORTUTF
+        )
 
 ENDFUNCTION()

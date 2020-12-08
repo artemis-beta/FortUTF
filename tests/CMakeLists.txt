@@ -1,4 +1,4 @@
-MESSAGE(STATUS "[FUTS Tests Build]")
+MESSAGE(STATUS "[FortUTF Tests Build]")
 MESSAGE(STATUS "\tProject Source Directory: ${PROJECT_ROOT}")
 
 FILE(GLOB TESTS ${CMAKE_CURRENT_SOURCE_DIR}/*.f90)
@@ -12,7 +12,7 @@ FOREACH(TEST ${TESTS})
     TARGET_LINK_LIBRARIES(
         ${TEST_NAME}
         PUBLIC
-        FUTS
+        FortUTF
     )
     SET_TARGET_PROPERTIES(
         ${TEST_NAME}

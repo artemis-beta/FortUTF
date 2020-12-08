@@ -2,7 +2,7 @@
 
 A purely FORTRANic framework for testing FORTRAN code
 
-![FUTS Linux](https://github.com/artemis-beta/FUTS/workflows/FUTS%20Linux/badge.svg) ![FUTS macOS](https://github.com/artemis-beta/FUTS/workflows/FUTS%20macOS/badge.svg)
+![FortUTF Linux](https://github.com/artemis-beta/FortUTF/workflows/FortUTF%20Linux/badge.svg) ![FortUTF macOS](https://github.com/artemis-beta/FortUTF/workflows/FortUTF%20macOS/badge.svg)
 
 ## Introduction
 
@@ -37,7 +37,7 @@ ENABLE_LANGUAGE(Fortran)
 
 SET(CMAKE_Fortran_COMPILER gfortran)
 
-MESSAGE(STATUS "[FUTS Example Project Build]")
+MESSAGE(STATUS "[FortUTF Example Project Build]")
 MESSAGE(STATUS "\tProject Source Directory: ${PROJECT_ROOT}")
 
 GET_FILENAME_COMPONENT(FORTUTF_ROOT ../../ ABSOLUTE)

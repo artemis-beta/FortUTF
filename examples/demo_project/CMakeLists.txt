@@ -6,7 +6,7 @@ ENABLE_LANGUAGE(Fortran)
 
 SET(CMAKE_Fortran_COMPILER gfortran)
 
-MESSAGE(STATUS "[FUTS Example Project Build]")
+MESSAGE(STATUS "[FortUTF Example Project Build]")
 MESSAGE(STATUS "\tProject Source Directory: ${PROJECT_ROOT}")
 
 GET_FILENAME_COMPONENT(FORTUTF_ROOT ../../ ABSOLUTE)

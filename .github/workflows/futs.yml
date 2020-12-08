@@ -1,4 +1,4 @@
-name: FUTS Linux
+name: FortUTF Linux
 
 on: [push]
 
@@ -13,7 +13,7 @@ jobs:
             cmake -H. -Bbuild -DBUILD_TESTS=ON
             cmake --build build
       - name: Run Tests
-        run: ./build/FUTS_Tests
+        run: ./build/FortUTF_Tests
 
   build_example:
     name: Ubuntu Latest Example
