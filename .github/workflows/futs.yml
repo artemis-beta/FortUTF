@@ -12,7 +12,9 @@ jobs:
         run: |
             cmake -H. -Bbuild -DBUILD_TESTS=ON
             cmake --build build
-            for i in $(ls build/bin/*); do ./$i; done
+      - name: Run Tests
+        run: ./build/FUTS_Tests
+
   build_example:
     name: Ubuntu Latest Example
     runs-on: 'ubuntu-latest'
