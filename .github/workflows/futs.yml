@@ -26,5 +26,5 @@ jobs:
             cmake -H. -Bbuild
             cmake --build build
       - name: Run Demo Project Tests
-        run: ./build/DEMO_PROJ
+        run: ./build/DEMO_PROJ_Tests
 

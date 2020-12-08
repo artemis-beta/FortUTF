@@ -61,7 +61,7 @@ FUNCTION(FortUTF_Find_Tests)
     ENDFOREACH()
 
     EXECUTE_PROCESS(
-	    COMMAND bash -c "rm ${TEST_DIR}/run_tests.f90;echo \"PROGRAM TEST_${PROJECT_NAME}\" >> ${TEST_DIR}/run_tests.f90; \
+	    COMMAND bash -c "rm -f ${TEST_DIR}/run_tests.f90;echo \"PROGRAM TEST_${PROJECT_NAME}\" >> ${TEST_DIR}/run_tests.f90; \
 	                    echo \"    USE FORTUTF\" >> ${TEST_DIR}/run_tests.f90; \
                         for i in ${TEST_MODULES}; do echo \"    USE $i\" >> ${TEST_DIR}/run_tests.f90; done; \
                         for i in ${TEST_SUBROUTINES}; do echo \"    CALL $i\" >> ${TEST_DIR}/run_tests.f90; done; \
