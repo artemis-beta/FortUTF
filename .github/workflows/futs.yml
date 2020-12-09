@@ -15,7 +15,7 @@ jobs:
       - name: Run Tests
         run: |
              ./build/FortUTF_Tests
-             if [ $? -neq 0]; then
+             if [ $? -neq 0 ]; then
                 echo "Unit Tests completed succesfully"
                 exit 0
              else
@@ -35,7 +35,7 @@ jobs:
              cmake -H. -Bbuild
              cmake --build build
              ./build/DEMO_PROJ_Tests
-             if [ $? -neq 0]; then
+             if [ $? -neq 0 ]; then
                 echo "Unit Tests completed succesfully"
                 exit 0
              else
