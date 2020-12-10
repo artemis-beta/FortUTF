@@ -48,8 +48,6 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@master
-      - name: Install prerequisites
-        run: apt install -y gcov lcov
       - name: Get Coverage Data
         run: |
             lcov --gcov-tool $(which gcov) --directory . --capture --output-file temp.info -b src/
