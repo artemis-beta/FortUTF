@@ -43,3 +43,19 @@ jobs:
                 exit 1
              fi
 
+  code_coverage:
+    name: Code Coverage
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@master
+      - name: Install prerequisites
+        run: apt install -y gcov lcov
+      - name: Get Coverage Data
+        run: |
+            lcov --gcov-tool $(which gcov) --directory . --capture --output-file temp.info -b src/
+            lcov --remove temp.info 'tests/*' 'tests/test_assertions/*' -o FortUTF.info
+      - uses: codecov/codecov-action@v1
+        with:
+          file: FortUTF.info
+          fail_ci_if_error: true
+          verbose: true

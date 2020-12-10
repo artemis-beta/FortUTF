@@ -10,6 +10,8 @@ IF(NOT CMAKE_Fortran_COMPILER)
     SET(CMAKE_Fortran_COMPILER gfortran)
 ENDIF()
 
+MESSAGE(STATUS "[Fortran Compiler]")
+MESSAGE(STATUS "\tUsing compiler: ${CMAKE_Fortran_COMPILER}")
 OPTION(BUILD_TESTS "Build the FortUTF Unit Tests" OFF)
 OPTION(BUILD_EXAMPLES "Build the FortUTF Example Project" OFF)
 
@@ -28,6 +30,7 @@ IF(NOT BUILD_TESTS)
 ENDIF()
 
 IF(BUILD_TESTS)
+    SET(CMAKE_Fortran_FLAGS "-Wall -Wextra -g -fprofile-arcs -ftest-coverage")
     INCLUDE(${CMAKE_SOURCE_DIR}/cmake/fortutf.cmake)
 	SET(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
 	SET(SRC_FILES ${FUTF_SRCS})
