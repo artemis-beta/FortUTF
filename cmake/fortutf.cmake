@@ -20,7 +20,9 @@ FUNCTION(FortUTF_Find_Tests)
                 MESSAGE(FATAL_ERROR "Variable SRC_FILES or SRC_LIBRARY must be set")
         ENDIF()
 
-        FILE(GLOB_RECURSE TEST_LIST ${TEST_DIR}/test_*.f90)
+        FILE(GLOB_RECURSE TESTS ${TEST_DIR}/test_*.f90)
+
+        LIST(APPEND TEST_LIST ${TESTS})
 
         JOIN("${TEST_LIST}" " " TEST_LIST_ARG)
 

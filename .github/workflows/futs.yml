@@ -42,12 +42,6 @@ jobs:
                 echo "Unit Tests failed"
                 exit 1
              fi
-
-  code_coverage:
-    name: Code Coverage
-    runs-on: 'ubuntu-latest'
-    steps:
-      - uses: actions/checkout@master
       - name: Get Coverage Data
         run: |
             sudo apt install -y lcov

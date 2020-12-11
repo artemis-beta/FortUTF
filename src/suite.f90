@@ -66,24 +66,31 @@ MODULE FUTF_SUITE
 
     END SUBROUTINE
 
-    SUBROUTINE TEST_SUMMARY
+    SUBROUTINE TEST_SUMMARY(QUIET)
+        LOGICAL, OPTIONAL :: QUIET
         CHARACTER(LEN=100) :: RESULT_STR, N_TEST_STR
-        WRITE(*,*) REPEAT("-", 54)
-        WRITE(N_TEST_STR, '(A, i0, A)') "GATHERED ",SIZE(TEST_RESULTS)," TESTS:"
-        WRITE(*,*) TRIM(N_TEST_STR), " ", TEST_RESULTS
-        WRITE(*,*) REPEAT("-", 54), NEW_LINE('A')
-        CALL FAILED_TEST_SUMMARY
-        WRITE(*,*) NEW_LINE('A')
-        WRITE(RESULT_STR, '(A, i0, A, i0)') REPEAT(" ", 5)//"PASSED: ", FUTF_PASSED, "/", FUTF_TOTAL
-        WRITE(*,*) REPEAT("*", 20), " TEST SUMMARY ", REPEAT("*", 20), NEW_LINE('A')
-        WRITE(*,*) RESULT_STR, NEW_LINE('A')
-        WRITE(*,*) REPEAT("*", 54)
-    END SUBROUTINE
 
-    SUBROUTINE FAIL_TEST_SUCCESS_RESET
-        FUTF_PASSED = FUTF_PASSED + 1
-        FUTF_EXIT_CODE = 0
-        TEST_RESULTS(SIZE(TEST_RESULTS)) = '.'
-    END SUBROUTINE FAIL_TEST_SUCCESS_RESET
+        IF(.NOT. ALLOCATED(TEST_RESULTS) .OR. .NOT. ALLOCATED(INFO_STRINGS)) THEN
+            IF(.NOT. PRESENT(QUIET)) THEN
+                WRITE(*,*) "No Tests Found."
+            ENDIF
+            RETURN
+        ENDIF
+        
+        IF(.NOT. PRESENT(QUIET)) THEN
+            WRITE(*,*) REPEAT("-", 54)
+            WRITE(N_TEST_STR, '(A, i0, A)') "GATHERED ",SIZE(TEST_RESULTS)," TESTS:"
+            WRITE(*,*) TRIM(N_TEST_STR), " ", TEST_RESULTS
+            WRITE(*,*) REPEAT("-", 54), NEW_LINE('A')
+        ENDIF
+        CALL FAILED_TEST_SUMMARY
+        IF(.NOT. PRESENT(QUIET)) THEN
+            WRITE(*,*) NEW_LINE('A')
+            WRITE(RESULT_STR, '(A, i0, A, i0)') REPEAT(" ", 5)//"PASSED: ", FUTF_PASSED, "/", FUTF_TOTAL
+            WRITE(*,*) REPEAT("*", 20), " TEST SUMMARY ", REPEAT("*", 20), NEW_LINE('A')
+            WRITE(*,*) RESULT_STR, NEW_LINE('A')
+            WRITE(*,*) REPEAT("*", 54)
+        ENDIF
+    END SUBROUTINE
         
 END MODULE

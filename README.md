@@ -74,7 +74,7 @@ MODULE TEST_DEMO_FUNCTIONS
 END MODULE TEST_DEMO_FUNCTIONS
 ```
 
-Firstly we must include the `FORTUTF` module in every test script, then in order for FortUFT to be able to provide labels to any failing tests we tag using the `TAG_TEST` subroutine. Finally we call a test subroutine, and that's it! Tests must be defined within a module.
+Firstly we must include the `FORTUTF` module in every test script, then in order for FortUFT to be able to provide labels to any failing tests we tag using the `TAG_TEST` subroutine. Finally we call a test subroutine, and that's it!
 
 To build this example we would then just run `cmake` within the project directory:
 
@@ -105,5 +105,7 @@ the test binary can then be run:
 
 ## Troubleshooting
 
-If you experience any problems building `run_tests.f90` file, try deleting the
-build directory and start again.
+If you experience any problems: 
+
+- Try deleting the build directory and starting again.
+- Try putting the test subroutines into a module
