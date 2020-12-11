@@ -50,7 +50,7 @@ jobs:
       - uses: actions/checkout@master
       - name: Get Coverage Data
         run: |
-            apt install -y lcov gcov
+            sudo apt install -y lcov gcov
             lcov --gcov-tool $(which gcov) --directory . --capture --output-file temp.info -b src/
             lcov --remove temp.info 'tests/*' 'tests/test_assertions/*' -o FortUTF.info
       - uses: codecov/codecov-action@v1
