@@ -4,6 +4,8 @@ A purely FORTRANic framework for testing FORTRAN code
 
 ![FortUTF Linux](https://github.com/artemis-beta/FortUTF/workflows/FortUTF%20Linux/badge.svg) ![FortUTF macOS](https://github.com/artemis-beta/FortUTF/workflows/FortUTF%20macOS/badge.svg)
 
+[![codecov](https://codecov.io/gh/artemis-beta/FortUTF/branch/master/graph/badge.svg?token=tIwLkKYQ98)](https://codecov.io/gh/artemis-beta/FortUTF)
+
 ## Introduction
 
 FortUTF is Unit Test framework written purely in FORTRAN to be compatible with as many projects as possible. The framework is still in development so documentation is limited, but I promise once it is complete documentation will be a priority. For now I will introduce the basics.
