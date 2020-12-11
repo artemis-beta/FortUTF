@@ -34,7 +34,7 @@ IF(BUILD_TESTS)
     INCLUDE(${CMAKE_SOURCE_DIR}/cmake/fortutf.cmake)
 	SET(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
     SET(SRC_FILES ${FUTF_SRCS})
-    LIST(APPEND TEST_LIST ${CMAKE_SOURCE_DIR}/tests/test_no_crash/unfinished_test_check.f90)
+    LIST(APPEND TEST_LIST ${CMAKE_SOURCE_DIR}/tests/test_suite/unfinished_test_check.f90)
     FortUTF_Find_Tests()
 ENDIF()
 
