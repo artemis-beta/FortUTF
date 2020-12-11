@@ -27,6 +27,8 @@ demo_project/
 ```
 
 the functions which we would like to test are contained within the project `src` folder. When building tests it is important that you give this location, or the name of a compiled library to FortUTF using either the variable `SRC_FILES` or `SRC_LIBRARY`, the contents of the `CMakeLists.txt` shows this in practice, and point it to the location of our tests using the `TEST_DIR` variable.
+In addition to include a directory containing module (`.mod`) files required
+to build the library being tested set the variable `MOD_DIR` to this location.
 
 ```cmake
 CMAKE_MINIMUM_REQUIRED(VERSION 3.12)
@@ -70,7 +72,7 @@ MODULE TEST_DEMO_FUNCTIONS
 END MODULE TEST_DEMO_FUNCTIONS
 ```
 
-Firstly we must include the `FORTUTF` module in every test script, then in order for FortUFT to be able to provide labels to any failing tests we tag using the `TAG_TEST` subroutine. Finally we call a test subroutine, and that's it! Including tests within a module is optional.
+Firstly we must include the `FORTUTF` module in every test script, then in order for FortUFT to be able to provide labels to any failing tests we tag using the `TAG_TEST` subroutine. Finally we call a test subroutine, and that's it! Tests must be defined within a module.
 
 To build this example we would then just run `cmake` within the project directory:
 
@@ -80,3 +82,26 @@ cmake --build build
 ```
 
 this will create a script `run_tests.f90` in `TEST_DIR` and compile it into a binary.
+
+
+## Running the Framework Unit Tests
+
+Even a test framework needs tests! FortUTF uses its own style of running to test
+all the assertions are behaving properly, to run the tests build them by 
+running cmake with the option:
+
+```bash
+cmake -H. -Bbuild -DBUILD_TESTS=ON
+cmake --build build
+```
+
+the test binary can then be run:
+
+```
+./build/FortUTF_Tests
+```
+
+## Troubleshooting
+
+If you experience any problems building `run_tests.f90` file, try deleting the
+build directory and start again.

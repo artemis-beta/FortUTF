@@ -73,25 +73,29 @@ FUNCTION(FortUTF_Find_Tests)
 
         ADD_LIBRARY(FORTUTF ${FORTUTF_SRCS})
 
+        ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${SRC_FILES} ${FORTUTF_SRCS} ${TEST_LIST} ${TEST_DIR}/run_tests.f90)
 
-        IF(SRC_FILES)
-                ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${SRC_FILES} ${FORTUTF_SRCS} ${TEST_LIST} ${TEST_DIR}/run_tests.f90)
-        ELSE()
-                ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${SRC_FILES} ${FORTUTF_SRCS} ${TEST_DIR}/run_tests.f90)
+        IF(MOD_DIR)
+                MESSAGE(STATUS "\tIncluding library: ${MOD_DIR}")
+                TARGET_INCLUDE_DIRECTORIES(
+                        ${PROJECT_NAME}_Tests
+                        PUBLIC
+                        ${MOD_DIR}
+                )
         ENDIF()
 
         IF(SRC_LIBRARY)
                 MESSAGE(STATUS "\tLinking library: ${SRC_LIBRARY}")
 
                 TARGET_LINK_LIBRARIES(
-                        ${PROJECT_NAME}_Tests PUBLIC ${SRC_LIBRARY}
+                        ${PROJECT_NAME}_Tests ${SRC_LIBRARY}
                 )
         ENDIF()
 
         MESSAGE(STATUS "\tCompiler Flags: ${CMAKE_Fortran_FLAGS}")
 
         TARGET_LINK_LIBRARIES(
-                ${PROJECT_NAME}_Tests PUBLIC FORTUTF
+                ${PROJECT_NAME}_Tests FORTUTF
         )
 
 ENDFUNCTION()
