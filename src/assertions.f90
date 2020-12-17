@@ -5,7 +5,7 @@ MODULE FUTF_ASSERTIONS
     
     IMPLICIT NONE
 
-    CHARACTER(LEN=200), PRIVATE :: INFO
+    CHARACTER(LEN=300), PRIVATE :: INFO
 
     INTERFACE ASSERT_EQUAL
         MODULE PROCEDURE ASSERT_EQUAL_INT_1BYTE
@@ -19,6 +19,8 @@ MODULE FUTF_ASSERTIONS
         MODULE PROCEDURE ASSERT_EQUAL_LOGICAL
         MODULE PROCEDURE ASSERT_EQUAL_REAL_8BYTE
         MODULE PROCEDURE ASSERT_EQUAL_REAL_4BYTE
+        MODULE PROCEDURE ASSERT_EQUAL_REAL_8BYTE_ARR
+        MODULE PROCEDURE ASSERT_EQUAL_REAL_4BYTE_ARR
         MODULE PROCEDURE ASSERT_EQUAL_COMPLEX
         MODULE PROCEDURE ASSERT_EQUAL_CHAR
     END INTERFACE ASSERT_EQUAL
@@ -166,24 +168,29 @@ MODULE FUTF_ASSERTIONS
     SUBROUTINE ASSERT_EQUAL_INT_1BYTE_ARR(INT_1, INT_2)
         INTEGER(1), DIMENSION(:), INTENT(IN) :: INT_1, INT_2
         INTEGER :: I
-        LOGICAL :: COMPARE = .TRUE.
+        LOGICAL :: COMPARE 
+        
+        COMPARE = .TRUE.
 
         IF(SIZE(INT_1) /= SIZE(INT_2)) THEN
-            COMPARE = .FALSE.
+            WRITE(INFO, '(A, I0, A, I0)') "UNMATCHED ARRAY SIZE: ", SIZE(INT_1), " != ", SIZE(INT_2)
+            INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+            RETURN
         ELSE
             DO I=1, SIZE(INT_1)
                 IF(INT_1(I) /= INT_2(I)) THEN
                     COMPARE = .FALSE.
+                    EXIT
                 ENDIF
             ENDDO
         ENDIF
 
         IF(COMPARE) THEN
             CALL REGISTER_PASSED
-            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " == ", INT_2 
+            WRITE(INFO, *) "ASSERT_EQUAL: ", INT_1, " == ", INT_2 
         ELSE
             CALL REGISTER_FAILED
-            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
+            WRITE(INFO, *) "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
         END IF   
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
     END SUBROUTINE ASSERT_EQUAL_INT_1BYTE_ARR
@@ -193,24 +200,29 @@ MODULE FUTF_ASSERTIONS
         INTEGER(2), DIMENSION(:), INTENT(IN) :: INT_1, INT_2
 
         INTEGER :: I
-        LOGICAL :: COMPARE = .TRUE.
+        LOGICAL :: COMPARE 
+        
+        COMPARE = .TRUE.
 
         IF(SIZE(INT_1) /= SIZE(INT_2)) THEN
-            COMPARE = .FALSE.
+            WRITE(INFO, '(A, I0, A, I0)') "UNMATCHED ARRAY SIZE: ", SIZE(INT_1), " != ", SIZE(INT_2)
+            INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+            RETURN
         ELSE
             DO I=1, SIZE(INT_1)
                 IF(INT_1(I) /= INT_2(I)) THEN
                     COMPARE = .FALSE.
+                    EXIT
                 ENDIF
             ENDDO
         ENDIF
 
         IF(COMPARE) THEN
             CALL REGISTER_PASSED
-            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " == ", INT_2
+            WRITE(INFO, *) "ASSERT_EQUAL: ", INT_1, " == ", INT_2
         ELSE
             CALL REGISTER_FAILED
-            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
+            WRITE(INFO, *) "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
         END IF
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
     END SUBROUTINE ASSERT_EQUAL_INT_2BYTE_ARR
@@ -220,24 +232,29 @@ MODULE FUTF_ASSERTIONS
         INTEGER(4), DIMENSION(:), INTENT(IN) :: INT_1, INT_2
 
         INTEGER :: I
-        LOGICAL :: COMPARE = .TRUE.
+        LOGICAL :: COMPARE 
+        
+        COMPARE = .TRUE.
 
         IF(SIZE(INT_1) /= SIZE(INT_2)) THEN
-            COMPARE = .FALSE.
+            WRITE(INFO, '(A, I0, A, I0)') "UNMATCHED ARRAY SIZE: ", SIZE(INT_1), " != ", SIZE(INT_2)
+            INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+            RETURN
         ELSE
             DO I=1, SIZE(INT_1)
                 IF(INT_1(I) /= INT_2(I)) THEN
                     COMPARE = .FALSE.
+                    EXIT
                 ENDIF
             ENDDO
         ENDIF
 
         IF(COMPARE) THEN
             CALL REGISTER_PASSED
-            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " == ", INT_2
+            WRITE(INFO, *) "ASSERT_EQUAL: ", INT_1, " == ", INT_2
         ELSE
             CALL REGISTER_FAILED
-            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " != ", INT_2
+            WRITE(INFO, *) "ASSERT_EQUAL: ", INT_1, " != ", INT_2
         END IF
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
     END SUBROUTINE ASSERT_EQUAL_INT_4BYTE_ARR
@@ -247,28 +264,35 @@ MODULE FUTF_ASSERTIONS
         INTEGER(8), DIMENSION(:), INTENT(IN) :: INT_1, INT_2
 
         INTEGER :: I
-        LOGICAL :: COMPARE = .TRUE.
+        LOGICAL :: COMPARE 
+        
+        COMPARE = .TRUE.
 
         IF(SIZE(INT_1) /= SIZE(INT_2)) THEN
-            COMPARE = .FALSE.
+            WRITE(INFO, '(A, I0, A, I0)') "UNMATCHED ARRAY SIZE: ", SIZE(INT_1), " != ", SIZE(INT_2)
+            INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+            RETURN
         ELSE
             DO I=1, SIZE(INT_1)
                 IF(INT_1(I) /= INT_2(I)) THEN
                     COMPARE = .FALSE.
+                    EXIT
                 ENDIF
             ENDDO
         ENDIF
 
         IF(COMPARE) THEN
             CALL REGISTER_PASSED
-            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " == ", INT_2
+            WRITE(INFO, *) "ASSERT_EQUAL: ", INT_1, " == ", INT_2
         ELSE
             CALL REGISTER_FAILED
-            WRITE(INFO, '(A, 9999(I2,A), A, 9999(I2,A))') "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
+            WRITE(INFO, *) "ASSERT_EQUAL: ", INT_1, " != ", INT_2 
         END IF
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
     END SUBROUTINE ASSERT_EQUAL_INT_8BYTE_ARR
 
+    ! =============================== REAL ================================== !
+    ! ****************************** SINGLE ********************************* !
     ! - REAL(8)
     SUBROUTINE ASSERT_EQUAL_REAL_8BYTE(REAL_1, REAL_2)
         REAL(8), INTENT(IN) :: REAL_1, REAL_2
@@ -297,6 +321,77 @@ MODULE FUTF_ASSERTIONS
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
     END SUBROUTINE ASSERT_EQUAL_REAL_4BYTE
 
+    ! ******************************* ARRAY ********************************* !
+   
+    SUBROUTINE ASSERT_EQUAL_REAL_4BYTE_ARR(REAL_1, REAL_2)
+        REAL(4), DIMENSION(:), INTENT(IN) :: REAL_1, REAL_2
+
+        INTEGER :: I
+        LOGICAL :: COMPARE 
+        CHARACTER(LEN=100) :: FORMAT_STR
+
+        COMPARE = .TRUE.
+
+        IF(SIZE(REAL_1) /= SIZE(REAL_2)) THEN
+            WRITE(INFO, '(A, I0, A, I0)') "UNMATCHED ARRAY SIZE: ", SIZE(REAL_1), " != ", SIZE(REAL_2)
+            INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+            RETURN
+        ELSE
+            DO I=1, SIZE(REAL_1)
+                IF(REAL_1(I) /= REAL_2(I)) THEN
+                    COMPARE = .FALSE.
+                    EXIT
+                ENDIF
+            ENDDO
+        ENDIF
+
+        IF(COMPARE) THEN
+            CALL REGISTER_PASSED
+            WRITE(FORMAT_STR, '("(''ASSERT_EQUAL:'', ", I4, "(X, F0.5), '' =='', ", I4, "(X, F0.5))")') SIZE(REAL_1), SIZE(REAL_2)
+            WRITE(INFO, FORMAT_STR) REAL_1, REAL_2
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(FORMAT_STR, '("(''ASSERT_EQUAL:'', ", I4, "(X, F0.5), '' !='', ", I4, "(X, F0.5))")') SIZE(REAL_1), SIZE(REAL_2)
+            WRITE(INFO, FORMAT_STR) REAL_1, REAL_2
+        END IF
+        INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+    END SUBROUTINE ASSERT_EQUAL_REAL_4BYTE_ARR
+
+    SUBROUTINE ASSERT_EQUAL_REAL_8BYTE_ARR(REAL_1, REAL_2)
+        REAL(8), DIMENSION(:), INTENT(IN) :: REAL_1, REAL_2
+
+        INTEGER :: I
+        LOGICAL :: COMPARE 
+        
+        CHARACTER(LEN=100) :: FORMAT_STR
+
+        COMPARE = .TRUE.
+
+        IF(SIZE(REAL_1) /= SIZE(REAL_2)) THEN
+            WRITE(INFO, '(A, I0, A, I0)') "UNMATCHED ARRAY SIZE: ", SIZE(REAL_1), " != ", SIZE(REAL_2)
+            INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+            RETURN
+        ELSE
+            DO I=1, SIZE(REAL_1)
+                IF(REAL_1(I) /= REAL_2(I)) THEN
+                    COMPARE = .FALSE.
+                    EXIT
+                ENDIF
+            ENDDO
+        ENDIF
+
+        IF(COMPARE) THEN
+            CALL REGISTER_PASSED
+            WRITE(FORMAT_STR, '("(''ASSERT_EQUAL:'', ", I4, "(X, F0.5), '' =='', ", I4, "(X, F0.5))")') SIZE(REAL_1), SIZE(REAL_2)
+            WRITE(INFO, FORMAT_STR) REAL_1, REAL_2
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(FORMAT_STR, '("(''ASSERT_EQUAL:'', ", I4, "(X, F0.5), '' !='', ", I4, "(X, F0.5))")') SIZE(REAL_1), SIZE(REAL_2)
+            WRITE(INFO, FORMAT_STR) REAL_1, REAL_2
+        END IF
+        INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
+    END SUBROUTINE ASSERT_EQUAL_REAL_8BYTE_ARR
+
     ! - COMPLEX
     SUBROUTINE ASSERT_EQUAL_COMPLEX(COMP_1, COMP_2)
         COMPLEX, INTENT(IN) :: COMP_1, COMP_2
@@ -304,11 +399,11 @@ MODULE FUTF_ASSERTIONS
         IF(COMP_1 == COMP_2) THEN
             CALL REGISTER_PASSED
             WRITE(INFO, '(A, F0.5, A, F0.5, A, F0.5, A, F0.5, A)') "ASSERT_EQUAL: ", REAL(COMP_1), " &
-            &+ ", AIMAG(COMP_1), "i == ", REAL(COMP_2), " + ", AIMAG(COMP_2), "i"
+            &+ ", AIMAG(COMP_1), "I == ", REAL(COMP_2), " + ", AIMAG(COMP_2), "I"
         ELSE
             CALL REGISTER_FAILED
             WRITE(INFO, '(A, F0.5, A, F0.5, A, F0.5, A, F0.5, A)') "ASSERT_EQUAL: ", REAL(COMP_1), " &
-            &+ ", AIMAG(COMP_1), "i != ", REAL(COMP_2), " + ", AIMAG(COMP_2), "i"
+            &+ ", AIMAG(COMP_1), "I != ", REAL(COMP_2), " + ", AIMAG(COMP_2), "I"
         END IF
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
     END SUBROUTINE ASSERT_EQUAL_COMPLEX
@@ -663,11 +758,11 @@ MODULE FUTF_ASSERTIONS
         IF(COMP_1 /= COMP_2) THEN
             CALL REGISTER_PASSED
             WRITE(INFO, '(A, F0.5, A, F0.5, A, F0.5, A, F0.5, A)') "ASSERT_NOT_EQUAL: ", REAL(COMP_1), " &
-            &+ ", AIMAG(COMP_1), "i != ", REAL(COMP_2), " + ", AIMAG(COMP_2), "i"
+            &+ ", AIMAG(COMP_1), "I != ", REAL(COMP_2), " + ", AIMAG(COMP_2), "I"
         ELSE
             CALL REGISTER_FAILED
             WRITE(INFO, '(A, F0.5, A, F0.5, A, F0.5, A, F0.5, A)') "ASSERT_NOT_EQUAL: ", REAL(COMP_1), " &
-            &+ ", AIMAG(COMP_1), "i == ", REAL(COMP_2), " + ", AIMAG(COMP_2), "i"
+            &+ ", AIMAG(COMP_1), "I == ", REAL(COMP_2), " + ", AIMAG(COMP_2), "I"
         END IF
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
     END SUBROUTINE ASSERT_NOT_EQUAL_COMPLEX
@@ -733,8 +828,8 @@ MODULE FUTF_ASSERTIONS
         ELSE
             CALL REGISTER_FAILED
             WRITE(INFO, '(A, F0.5, A, F0.5)') "ASSERT_GREATER_THAN: ", REAL_1, " <= ", REAL_2
+        END IF
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO)) 
-        END IF   
     END SUBROUTINE ASSERT_GREATER_THAN_REAL_4BYTE
 
     SUBROUTINE ASSERT_GREATER_THAN_REAL_8BYTE(REAL_1, REAL_2)
@@ -993,7 +1088,7 @@ MODULE FUTF_ASSERTIONS
 
     SUBROUTINE ASSERT_IS_REAL_REAL_8BYTE(REAL_VAR)
         REAL(8), INTENT(IN) :: REAL_VAR
-        CALL REGISTER_FAILED
+        CALL REGISTER_PASSED
         WRITE(INFO, '(A, F0.5, A)') "ASSERT_IS_REAL: ", REAL_VAR, " (REAL)"
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO)) 
     END SUBROUTINE ASSERT_IS_REAL_REAL_8BYTE
@@ -1044,7 +1139,7 @@ MODULE FUTF_ASSERTIONS
         COMPLEX, INTENT(IN) :: COMP_VAR
         CALL REGISTER_FAILED
         WRITE(INFO, '(A, F0.5, A, F0.5, A, A)') "ASSERT_NOT_EQUAL: ", REAL(COMP_VAR), " & 
-                + ", AIMAG(COMP_VAR), "i", " (COMPLEX)"
+               & + ", AIMAG(COMP_VAR), "I", " (COMPLEX)"
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO)) 
     END SUBROUTINE ASSERT_IS_REAL_COMPLEX
     

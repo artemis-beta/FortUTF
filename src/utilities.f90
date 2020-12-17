@@ -10,17 +10,19 @@ MODULE FUTF_UTILITIES
 
         IF(.NOT. ALLOCATED(INPUT_ARRAY)) THEN
             ALLOCATE(OUTPUT_ARRAY(1))
-            OUTPUT_ARRAY(1) = ELEMENT
-        ELSE
-            ISIZE = SIZE(INPUT_ARRAY)
-            ALLOCATE(OUTPUT_ARRAY(ISIZE+1))
-            
-            DO I=1, SIZE(INPUT_ARRAY)
-                OUTPUT_ARRAY(I) = INPUT_ARRAY(I)
-            ENDDO
-            
-            OUTPUT_ARRAY(ISIZE+1) = ELEMENT
+            OUTPUT_ARRAY(1) = TRIM(ELEMENT)
+            RETURN
         ENDIF
+
+        
+        ISIZE = SIZE(INPUT_ARRAY)
+        ALLOCATE(OUTPUT_ARRAY(ISIZE+1))
+        
+        DO I=1, SIZE(INPUT_ARRAY)
+            OUTPUT_ARRAY(I) = TRIM(INPUT_ARRAY(I))
+        ENDDO
+        
+        OUTPUT_ARRAY(SIZE(OUTPUT_ARRAY)) = TRIM(ELEMENT)
 
     END FUNCTION APPEND_CHAR
 

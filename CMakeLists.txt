@@ -30,7 +30,7 @@ IF(NOT BUILD_TESTS)
 ENDIF()
 
 IF(BUILD_TESTS)
-    SET(CMAKE_Fortran_FLAGS "-Wall -Wextra -g -fprofile-arcs -ftest-coverage")
+    SET(CMAKE_Fortran_FLAGS "-Wall -Wextra -Wno-compare-reals -Wno-maybe-uninitialized -Wno-uninitialized -O3 -g -fprofile-arcs -ftest-coverage")
     INCLUDE(${CMAKE_SOURCE_DIR}/cmake/fortutf.cmake)
 	SET(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
     SET(SRC_FILES ${FUTF_SRCS})
