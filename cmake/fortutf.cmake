@@ -32,12 +32,12 @@ FUNCTION(FortUTF_Find_Tests)
         ENDFOREACH()
 
         EXECUTE_PROCESS(
-                COMMAND bash -c "for i in ${TEST_LIST_ARG}; do cat $i | grep -i \"SUBROUTINE\" | rev | cut -d ' ' -f 1 | rev; done"
+                COMMAND bash -c "for i in ${TEST_LIST_ARG}; do cat $i | grep -i \"^[[:space:]]*SUBROUTINE\" | rev | cut -d ' ' -f 1 | rev; done"
                 OUTPUT_VARIABLE TEST_SUBROUTINES
         )
 
         EXECUTE_PROCESS(
-                COMMAND bash -c "for i in ${TEST_LIST_ARG}; do cat $i | grep -i \"MODULE\" | rev | cut -d ' ' -f 1 | rev; done"
+                COMMAND bash -c "for i in ${TEST_LIST_ARG}; do cat $i | grep -i \"^[[:space:]]*MODULE\" | rev | cut -d ' ' -f 1 | rev; done"
                 OUTPUT_VARIABLE TEST_MODULES
         )
 
@@ -63,6 +63,12 @@ FUNCTION(FortUTF_Find_Tests)
         FOREACH(SUBROOT ${TEST_SUBROUTINES_LIST})
                 MESSAGE(STATUS "\t  - ${SUBROOT}")
         ENDFOREACH()
+        IF(TEST_MODULES_LIST)
+                MESSAGE(STATUS "\tWill Include Modules: ")
+                FOREACH(MODULE ${TEST_MODULES_LIST})
+                        MESSAGE(STATUS "\t  - ${MODULE}")
+                ENDFOREACH()
+        ENDIF()
 
         EXECUTE_PROCESS(
                 COMMAND bash -c "rm -f ${TEST_DIR}/run_tests.f90;echo \"PROGRAM TEST_${PROJECT_NAME}\" >> ${TEST_DIR}/run_tests.f90; \
