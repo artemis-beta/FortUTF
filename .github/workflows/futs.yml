@@ -33,23 +33,4 @@ jobs:
           file: FortUTF.info
           fail_ci_if_error: true
           verbose: true
-                
 
-  build_example:
-    name: Ubuntu Latest Example
-    runs-on: 'ubuntu-20.04'
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build Example Project
-        run: |
-             cd examples/demo_project
-             cmake -H. -Bbuild -DCMAKE_Fortran_COMPILER=$(which gfortran-10)
-             cmake --build build
-             ./build/DEMO_PROJ_Tests
-             if [ $? -eq 0 ]; then
-                echo "Unit Tests demo completed succesfully"
-                exit 0
-             else
-                echo "Unit Tests demo failed"
-                exit 1
-             fi
