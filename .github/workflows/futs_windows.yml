@@ -1,21 +1,29 @@
-name: FortUTF macOS GFortran 10
+name: FortUTF Windows GFortran 10
 
 on: [push]
 
 jobs:
   build: 
-    name: 'macOS Latest'
-    runs-on: 'macos-latest'
+    name: 'Windows Latest'
+    runs-on: 'windows-latest'
     
     steps:
       - uses: actions/checkout@v2
-      - name: Install GFortran macOS
-        run: brew install gfortran
+      - name: Install GFortran Windows
+        uses: msys2/setup-msys2@v2
+        with:
+            update: true
+            install: >-
+                cmake
+                gcc-fortran
+                make
       - name: Build Tests
+        shell: msys2 {0}
         run: |
-            cmake -H. -Bbuild -DBUILD_TESTS=ON -DCMAKE_Fortran_COMPILER=$(which gfortran-10)
+            cmake -H. -Bbuild -DBUILD_TESTS=ON
             cmake --build build
       - name: Run Tests
+        shell: msys2 {0}
         run: |
              ./build/FortUTF_Tests
              if [ $? -eq 0 ]; then

@@ -1,22 +1,23 @@
-name: FortUTF Linux
+name: FortUTF Ubuntu GFortran 10
 
 on: [push]
 
 jobs:
   build: 
     name: Ubuntu Latest Tests
-    runs-on: 'ubuntu-latest'
+    runs-on: 'ubuntu-20.04'
     steps:
       - uses: actions/checkout@v2
       - name: Build Tests
         run: |
-            cmake -H. -Bbuild -DBUILD_TESTS=ON
+            gfortran-10 --version
+            cmake -H. -Bbuild -DBUILD_TESTS=ON -DCMAKE_Fortran_COMPILER=$(which gfortran-10)
             cmake --build build
       - name: Run Tests
         run: |
              ./build/FortUTF_Tests
              if [ $? -eq 0 ]; then
-                echo "Unit Tests completed succesfully"
+                echo "Unit Tests completed successfully"
                 exit 0
              else
                 echo "Unit Tests failed"
@@ -36,13 +37,13 @@ jobs:
 
   build_example:
     name: Ubuntu Latest Example
-    runs-on: 'ubuntu-latest'
+    runs-on: 'ubuntu-20.04'
     steps:
       - uses: actions/checkout@v2
       - name: Build Example Project
         run: |
              cd examples/demo_project
-             cmake -H. -Bbuild
+             cmake -H. -Bbuild -DCMAKE_Fortran_COMPILER=$(which gfortran-10)
              cmake --build build
              ./build/DEMO_PROJ_Tests
              if [ $? -eq 0 ]; then
