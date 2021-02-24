@@ -2,7 +2,9 @@
 
 A purely FORTRANic framework for testing FORTRAN code
 
-![FortUTF Linux](https://github.com/artemis-beta/FortUTF/workflows/FortUTF%20Linux/badge.svg) ![FortUTF macOS](https://github.com/artemis-beta/FortUTF/workflows/FortUTF%20macOS/badge.svg)
+[![FortUTF Ubuntu GFortran 10](https://github.com/artemis-beta/FortUTF/actions/workflows/futs.yml/badge.svg)](https://github.com/artemis-beta/FortUTF/actions/workflows/futs.yml)
+[![FortUTF Windows GFortran 10](https://github.com/artemis-beta/FortUTF/actions/workflows/futs_windows.yml/badge.svg)](https://github.com/artemis-beta/FortUTF/actions/workflows/futs_windows.yml)
+[![FortUTF macOS GFortran 10](https://github.com/artemis-beta/FortUTF/actions/workflows/futs_mac.yml/badge.svg)](https://github.com/artemis-beta/FortUTF/actions/workflows/futs_mac.yml)
 
 [![codecov](https://codecov.io/gh/artemis-beta/FortUTF/branch/master/graph/badge.svg?token=tIwLkKYQ98)](https://codecov.io/gh/artemis-beta/FortUTF)
 
