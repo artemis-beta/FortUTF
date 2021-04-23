@@ -1,0 +1,20 @@
+site_name: FortUTF
+theme:
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:
+    - cmake
+    - fortran
+markdown_extensions:
+    - toc:
+        permalink: "#"
+    - pymdownx.arithmatex:
+        generic: true
+extra_javascript:
+  - javascripts/config.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+nav:
+  - Manual:
+    - Users Guide: 'usage.md'
+    - Available Assertions: 'assertions.md'
