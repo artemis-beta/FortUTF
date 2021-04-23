@@ -7,8 +7,8 @@ ENDFUNCTION()
 FUNCTION(FortUTF_Find_Tests)
         MESSAGE(STATUS "[FortUTF]")
         MESSAGE(STATUS "\tFinding tests in directory: ${TEST_DIR}")
-        IF(NOT TEST_DIR)
-                SET(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
+        IF(NOT FORTUTF_PROJECT_TEST_DIR)
+                SET(FORTUTF_PROJECT_TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
         ENDIF()
 
         GET_FILENAME_COMPONENT(FORTUTF_DIR ${CMAKE_CURRENT_FUNCTION_LIST_FILE} DIRECTORY)
@@ -16,11 +16,11 @@ FUNCTION(FortUTF_Find_Tests)
 
         FILE(GLOB FORTUTF_SRCS ${FORTUTF_DIR}/src/*.f90)
 
-        IF(NOT SRC_FILES AND NOT SRC_LIBRARY)
+        IF(NOT FORTUTF_PROJECT_SRC_FILES AND NOT FORTUTF_PROJECT_SRC_LIBRARY)
                 MESSAGE(FATAL_ERROR "Variable SRC_FILES or SRC_LIBRARY must be set")
         ENDIF()
 
-        FILE(GLOB_RECURSE TESTS ${TEST_DIR}/test_*.f90)
+        FILE(GLOB_RECURSE TESTS ${FORTUTF_PROJECT_TEST_DIR}/test_*.f90)
 
         LIST(APPEND TEST_LIST ${TESTS})
 
@@ -81,7 +81,7 @@ FUNCTION(FortUTF_Find_Tests)
 
         ADD_LIBRARY(FORTUTF ${FORTUTF_SRCS})
 
-        ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${SRC_FILES} ${FORTUTF_SRCS} ${TEST_LIST} ${TEST_DIR}/run_tests.f90)
+        ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${FORTUTF_PROJECT_SRC_FILES} ${FORTUTF_SRCS} ${TEST_LIST} ${TEST_DIR}/run_tests.f90)
 
         IF(MOD_DIR)
                 MESSAGE(STATUS "\tIncluding library: ${MOD_DIR}")
@@ -92,11 +92,11 @@ FUNCTION(FortUTF_Find_Tests)
                 )
         ENDIF()
 
-        IF(SRC_LIBRARY)
-                MESSAGE(STATUS "\tLinking library: ${SRC_LIBRARY}")
+        IF(FORTUTF_PROJECT_SRC_LIBRARY)
+                MESSAGE(STATUS "\tLinking library: ${FORTUTF_PROJECT_SRC_LIBRARY}")
 
                 TARGET_LINK_LIBRARIES(
-                        ${PROJECT_NAME}_Tests ${SRC_LIBRARY}
+                        ${PROJECT_NAME}_Tests ${FORTUTF_PROJECT_SRC_LIBRARY}
                 )
         ENDIF()
 
