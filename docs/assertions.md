@@ -25,3 +25,8 @@ Assertions can confirm the properties of a value, or where appropriate, those of
 |`ASSERT_IS_REAL(A)` | Assert that $A$ is a `REAL` type |
 |`ASSERT_IS_INT(A)` | Assert that $A$ is a `INTEGER` type |
 |`ASSERT_IS_CHARACTER(A)` | Assert that $A$ is a `CHARACTER` type |
+
+## Array Checking
+|**Subroutine**|**Description**|
+|----|----|
+|`ASSERT_ARRAY_CONTAINS(X, A)` | Assert that array $\textbf{X}$ contains $A$|

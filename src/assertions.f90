@@ -129,6 +129,13 @@ MODULE FUTF_ASSERTIONS
         MODULE PROCEDURE ASSERT_IS_COMPLEX_CHAR
         MODULE PROCEDURE ASSERT_IS_COMPLEX_BOOL
     END INTERFACE ASSERT_IS_COMPLEX
+
+    INTERFACE ASSERT_ARRAY_CONTAINS
+        MODULE PROCEDURE VAL_IN_ARR_INT_1BYTE
+        MODULE PROCEDURE VAL_IN_ARR_INT_2BYTE
+        MODULE PROCEDURE VAL_IN_ARR_INT_4BYTE
+        MODULE PROCEDURE VAL_IN_ARR_INT_8BYTE
+    END INTERFACE ASSERT_ARRAY_CONTAINS
     
     CONTAINS
 
@@ -1370,4 +1377,62 @@ MODULE FUTF_ASSERTIONS
                & + ", AIMAG(COMP_VAR), "I", " (COMPLEX)"
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO)) 
     END SUBROUTINE ASSERT_IS_COMPLEX_COMPLEX
+
+    !-------------------------------------------------------------------------!
+    !                                                                         !
+    !                            ARRAY VALIDATION                             !
+    !                                                                         !
+    !-------------------------------------------------------------------------!
+    SUBROUTINE VAL_IN_ARR_INT_1BYTE(ARRAY, VAL)
+        INTEGER(1), INTENT(IN) :: VAL
+        INTEGER(1), DIMENSION(:), INTENT(IN) :: ARRAY
+
+        IF( ANY(ARRAY == VAL) ) THEN
+            CALL REGISTER_PASSED
+            WRITE(INFO, *) "ASSERT_ARRAY_CONTAINS: ", VAL, " IN ", ARRAY
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(INFO, *) "ASSERT_ARRAY_CONTAINS: ", VAL, " NOT IN ", ARRAY
+        ENDIF
+    END SUBROUTINE VAL_IN_ARR_INT_1BYTE
+
+    SUBROUTINE VAL_IN_ARR_INT_2BYTE(ARRAY, VAL)
+        INTEGER(2), INTENT(IN) :: VAL
+        INTEGER(2), DIMENSION(:), INTENT(IN) :: ARRAY
+
+        IF( ANY(ARRAY == VAL) ) THEN
+            CALL REGISTER_PASSED
+            WRITE(INFO, *) "ASSERT_ARRAY_CONTAINS: ", VAL, " IN ", ARRAY
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(INFO, *) "ASSERT_ARRAY_CONTAINS: ", VAL, " NOT IN ", ARRAY
+        ENDIF
+    END SUBROUTINE VAL_IN_ARR_INT_2BYTE
+
+    SUBROUTINE VAL_IN_ARR_INT_4BYTE(ARRAY, VAL)
+        INTEGER(4), INTENT(IN) :: VAL
+        INTEGER(4), DIMENSION(:), INTENT(IN) :: ARRAY
+
+        IF( ANY(ARRAY == VAL) ) THEN
+            CALL REGISTER_PASSED
+            WRITE(INFO, *) "ASSERT_ARRAY_CONTAINS: ", VAL, " IN ", ARRAY
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(INFO, *) "ASSERT_ARRAY_CONTAINS: ", VAL, " NOT IN ", ARRAY
+        ENDIF
+    END SUBROUTINE VAL_IN_ARR_INT_4BYTE
+
+    SUBROUTINE VAL_IN_ARR_INT_8BYTE(ARRAY, VAL)
+        INTEGER(8), INTENT(IN) :: VAL
+        INTEGER(8), DIMENSION(:), INTENT(IN) :: ARRAY
+
+        IF( ANY(ARRAY == VAL) ) THEN
+            CALL REGISTER_PASSED
+            WRITE(INFO, *) "ASSERT_ARRAY_CONTAINS: ", VAL, " IN ", ARRAY
+        ELSE
+            CALL REGISTER_FAILED
+            WRITE(INFO, *) "ASSERT_ARRAY_CONTAINS: ", VAL, " NOT IN ", ARRAY
+        ENDIF
+    END SUBROUTINE VAL_IN_ARR_INT_8BYTE
+
 END MODULE
