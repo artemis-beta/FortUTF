@@ -80,6 +80,9 @@ FUNCTION(FortUTF_Find_Tests)
         )
 
         if(NOT TARGET ${FORTUTF})
+                if(NOT DEFINED ${FORTUTF})
+                        SET(FORTUTF FortUTF)
+                endif()
                 ADD_LIBRARY(${FORTUTF} ${FORTUTF_SRCS})
         endif()
 
