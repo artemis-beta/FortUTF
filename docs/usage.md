@@ -13,7 +13,7 @@ OPTION( BUILD_TESTS "Build Project Unit tests" OFF )
 
 IF( BUILD_TESTS )
     # set required project files variable e.g. files in 'src' directory within the project directory
-    FILE( GLOB_RECURSE PROJECT_SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.f90 )
+    FILE( GLOB_RECURSE PROJECT_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.f90 )
 
     # Include the FortUTF test finding script
     SET( FORTUTF_ROOT /path/to/FortUTF/folder )

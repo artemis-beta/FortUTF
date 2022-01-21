@@ -6,22 +6,26 @@ MODULE TEST_DEMO_FUNCTIONS
     SUBROUTINE TEST_DEMO_FUNC_1
         USE DEMO_FUNCTIONS, ONLY: DEMO_FUNC_1
         CALL TAG_TEST("TEST_DEMO_FUNC_1")
+        WRITE(*,*) "This test 1 should pass: F1(X) = X**2 - 5, F1(10) == 95"
         CALL ASSERT_EQUAL(DEMO_FUNC_1(10), 95)
     END SUBROUTINE
     SUBROUTINE TEST_DEMO_FUNC_2
         USE DEMO_FUNCTIONS, ONLY: DEMO_FUNC_2
+        WRITE(*,*) "This test 2 should fail: F2(X) = (X-4)**2, F2(11) != 32"
         CALL TAG_TEST("TEST_DEMO_FUNC_2")
         CALL ASSERT_EQUAL(DEMO_FUNC_2(11D0), 32D0)
     END SUBROUTINE
     SUBROUTINE TEST_DEMO_FUNC_3
         USE DEMO_FUNCTIONS, ONLY: DEMO_FUNC_3
         CALL TAG_TEST("TEST_DEMO_FUNC_3")
+        WRITE(*,*) "This test 3 should pass: F3(X) = X, F2('YN') == 'YN'"
         CALL ASSERT_EQUAL(DEMO_FUNC_3(), "YN")
     END SUBROUTINE
     SUBROUTINE TEST_DEMO_FUNC_4
         USE DEMO_FUNCTIONS, ONLY: DEMO_FUNC_4
         COMPLEX TEMP
         TEMP = (10D0, 1D0)
+        WRITE(*,*) "This test 4 should fail: F4(X) = (12, 3), F4() != (10, 1)"
         CALL TAG_TEST("TEST_DEMO_FUNC_4")
         CALL ASSERT_EQUAL(DEMO_FUNC_4(), TEMP)
     END SUBROUTINE
@@ -29,6 +33,7 @@ MODULE TEST_DEMO_FUNCTIONS
         INTEGER, DIMENSION(5) :: INT_1, INT_2
         INT_1 = (/1,2,3,4,5/)
         INT_2 = (/6,7,8,9,10/)
+        WRITE(*,*) "This test 5 should fail: (1, 2, 3, 4, 5) != (6, 7, 8, 9, 10)"
         CALL TAG_TEST("TEST_DEMO_FUNC_5")
         CALL ASSERT_EQUAL(INT_1, INT_2)
     END SUBROUTINE

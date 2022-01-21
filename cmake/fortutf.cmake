@@ -6,7 +6,7 @@ ENDFUNCTION()
 
 FUNCTION(FortUTF_Find_Tests)
         MESSAGE(STATUS "[FortUTF]")
-        MESSAGE(STATUS "\tFinding tests in directory: ${TEST_DIR}")
+        MESSAGE(STATUS "\tFinding tests in directory: ${FORTUTF_PROJECT_TEST_DIR}")
         IF(NOT FORTUTF_PROJECT_TEST_DIR)
                 SET(FORTUTF_PROJECT_TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
         ENDIF()
@@ -71,24 +71,26 @@ FUNCTION(FortUTF_Find_Tests)
         ENDIF()
 
         EXECUTE_PROCESS(
-                COMMAND bash -c "rm -f ${TEST_DIR}/run_tests.f90;echo \"PROGRAM TEST_${PROJECT_NAME}\" >> ${TEST_DIR}/run_tests.f90; \
-                                echo \"    USE FORTUTF\" >> ${TEST_DIR}/run_tests.f90; \
-                                for i in ${TEST_MODULES}; do echo \"    USE $i\" >> ${TEST_DIR}/run_tests.f90; done; \
-                                for i in ${TEST_SUBROUTINES}; do echo \"    CALL $i\" >> ${TEST_DIR}/run_tests.f90; done; \
-                                echo \"    CALL TEST_SUMMARY\" >> ${TEST_DIR}/run_tests.f90; \
-                                echo \"END PROGRAM\" >> ${TEST_DIR}/run_tests.f90"
+                COMMAND bash -c "rm -f ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90;echo \"PROGRAM TEST_${PROJECT_NAME}\" >> ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90; \
+                                echo \"    USE FORTUTF\" >> ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90; \
+                                for i in ${TEST_MODULES}; do echo \"    USE $i\" >> ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90; done; \
+                                for i in ${TEST_SUBROUTINES}; do echo \"    CALL $i\" >> ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90; done; \
+                                echo \"    CALL TEST_SUMMARY\" >> ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90; \
+                                echo \"END PROGRAM\" >> ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90"
         )
 
-        ADD_LIBRARY(FORTUTF ${FORTUTF_SRCS})
+        if(NOT TARGET ${FORTUTF})
+                ADD_LIBRARY(${FORTUTF} ${FORTUTF_SRCS})
+        endif()
 
-        ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${FORTUTF_PROJECT_SRC_FILES} ${FORTUTF_SRCS} ${TEST_LIST} ${TEST_DIR}/run_tests.f90)
+        ADD_EXECUTABLE(${PROJECT_NAME}_Tests ${FORTUTF_PROJECT_SRC_FILES} ${FORTUTF_SRCS} ${TEST_LIST} ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90)
 
-        IF(MOD_DIR)
-                MESSAGE(STATUS "\tIncluding library: ${MOD_DIR}")
+        IF(FORTUTF_PROJECT_MOD_DIR)
+                MESSAGE(STATUS "\tIncluding library: ${FORTUTF_PROJECT_MOD_DIR}")
                 TARGET_INCLUDE_DIRECTORIES(
                         ${PROJECT_NAME}_Tests
                         PUBLIC
-                        ${MOD_DIR}
+                        ${FORTUTF_PROJECT_MOD_DIR}
                 )
         ENDIF()
 
@@ -103,7 +105,7 @@ FUNCTION(FortUTF_Find_Tests)
         MESSAGE(STATUS "\tCompiler Flags: ${CMAKE_Fortran_FLAGS}")
 
         TARGET_LINK_LIBRARIES(
-                ${PROJECT_NAME}_Tests FORTUTF
+                ${PROJECT_NAME}_Tests ${FORTUTF}
         )
 
 ENDFUNCTION()
