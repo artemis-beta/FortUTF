@@ -30,32 +30,28 @@ demo_project/
     └── test_functions.f90
 ```
 
-the functions which we would like to test are contained within the project `src` folder. When building tests it is important that you give this location, or the name of a compiled library to FortUTF using either the variable `SRC_FILES` or `SRC_LIBRARY`, the contents of the `CMakeLists.txt` shows this in practice, and point it to the location of our tests using the `TEST_DIR` variable.
+the functions which we would like to test are contained within the project `src` folder. When building tests it is important that you give this location, or the name of a compiled library to FortUTF using either the variable `SRC_FILES` or `SRC_LIBRARY`, the contents of the `CMakeLists.txt` shows this in practice, and point it to the location of our tests using the `FORTUTF_PROJECT_TEST_DIR` variable.
 In addition to include a directory containing module (`.mod`) files required
-to build the library being tested set the variable `MOD_DIR` to this location.
+to build the library being tested set the variable `FORTUTF_PROJECT_MOD_DIR` to this location.
 
 ```cmake
 CMAKE_MINIMUM_REQUIRED(VERSION 3.12)
 
-PROJECT(DEMO_PROJ)
-
-ENABLE_LANGUAGE(Fortran)
-
-SET(CMAKE_Fortran_COMPILER gfortran)
+PROJECT(DEMO_PROJ LANGUAGES Fortran)
 
 MESSAGE(STATUS "[FortUTF Example Project Build]")
 MESSAGE(STATUS "\tProject Source Directory: ${PROJECT_ROOT}")
 
 GET_FILENAME_COMPONENT(FORTUTF_ROOT ../../ ABSOLUTE)
 
-SET(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
-FILE(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.f90)
+SET(FORTUTF_PROJECT_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
+FILE(GLOB SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.f90)
 
 INCLUDE(${FORTUTF_ROOT}/cmake/fortutf.cmake)
 FortUTF_Find_Tests()
 ```
 
-by including the file `cmake/fortutf.cmake` from within this repository we have access to the `FortUTF_Find_Tests` macro. We can place as many scripts in our `TEST_DIR` location. An example script for this project is:
+by including the file `cmake/fortutf.cmake` from within this repository we have access to the `FortUTF_Find_Tests` macro. We can place as many scripts in our `FORTUTF_PROJECT_TEST_DIR` location. An example script for this project is:
 
 ```fortran
 MODULE TEST_DEMO_FUNCTIONS
@@ -85,7 +81,7 @@ cmake -H. -Bbuild
 cmake --build build
 ```
 
-this will create a script `run_tests.f90` in `TEST_DIR` and compile it into a binary.
+this will create a script `run_tests.f90` in `FORTUTF_PROJECT_TEST_DIR` and compile it into a binary.
 
 
 ## Running the Framework Unit Tests
