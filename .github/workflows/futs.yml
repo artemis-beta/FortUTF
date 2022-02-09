@@ -3,11 +3,15 @@ name: FortUTF Ubuntu GFortran 10
 on: [push]
 
 jobs:
-  build: 
+  build:
     name: Ubuntu Latest Tests
     runs-on: 'ubuntu-20.04'
     steps:
       - uses: actions/checkout@v2
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.12
+        with:
+          cmake-version: '3.20.x'
       - name: Build Tests
         run: |
             gfortran-10 --version

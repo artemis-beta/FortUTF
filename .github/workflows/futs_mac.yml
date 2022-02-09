@@ -3,12 +3,16 @@ name: FortUTF macOS GFortran 10
 on: [push]
 
 jobs:
-  build: 
+  build:
     name: 'macOS Latest'
     runs-on: 'macos-latest'
-    
+
     steps:
       - uses: actions/checkout@v2
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.12
+        with:
+          cmake-version: '3.20.x'
       - name: Install GFortran macOS
         run: brew install gfortran
       - name: Build Tests

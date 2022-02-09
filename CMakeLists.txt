@@ -1,36 +1,36 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.20)
+cmake_minimum_required(VERSION 3.20)
 
 set( FORTUTF FortUTF )
 
-PROJECT( ${FORTUTF} VERSION 0.1.2 LANGUAGES Fortran )
+project( ${FORTUTF} VERSION 0.1.2 LANGUAGES Fortran )
 
-FILE(GLOB FUTF_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.f90)
+file(GLOB FUTF_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.f90)
 
-MESSAGE(STATUS "[Fortran Compiler]")
-MESSAGE(STATUS "\tUsing compiler: ${CMAKE_Fortran_COMPILER}")
-OPTION(BUILD_TESTS "Build the FortUTF Unit Tests" OFF)
-OPTION(BUILD_EXAMPLES "Build the FortUTF Example Project" OFF)
+message(STATUS "[Fortran Compiler]")
+message(STATUS "\tUsing compiler: ${CMAKE_Fortran_COMPILER}")
+option(BUILD_TESTS "Build the FortUTF Unit Tests" OFF)
+option(BUILD_EXAMPLES "Build the FortUTF Example Project" OFF)
 
-IF(NOT BUILD_TESTS)
-    ADD_LIBRARY(${FORTUTF} ${FUTF_SRCS})
-    SET_TARGET_PROPERTIES(
+if(NOT BUILD_TESTS)
+    add_library(${FORTUTF} ${FUTF_SRCS})
+    set_target_properties(
         ${FORTUTF}
         PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
     )
-    SET_TARGET_PROPERTIES(
+    set_target_properties(
         ${FORTUTF}
         PROPERTIES
         Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/modules
     )
-ENDIF()
+endif()
 
-IF(BUILD_TESTS)
-    SET(CMAKE_Fortran_FLAGS "-Wall -Wextra -Wno-compare-reals -Wno-maybe-uninitialized -Wno-uninitialized -O3 -g -fprofile-arcs -ftest-coverage")
-    INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/fortutf.cmake)
-	SET(FORTUTF_PROJECT_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
-    SET(FORTUTF_PROJECT_SRC_FILES ${FUTF_SRCS})
-    LIST(APPEND TEST_LIST ${CMAKE_SOURCE_DIR}/tests/test_suite/unfinished_test_check.f90)
+if(BUILD_TESTS)
+    set(CMAKE_Fortran_FLAGS "-Wall -Wextra -Wno-compare-reals -Wno-maybe-uninitialized -Wno-uninitialized -O3 -g -fprofile-arcs -ftest-coverage")
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/fortutf.cmake)
+	set(FORTUTF_PROJECT_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
+    set(FORTUTF_PROJECT_SRC_FILES ${FUTF_SRCS})
+    list(APPEND TEST_LIST ${CMAKE_SOURCE_DIR}/tests/test_suite/unfinished_test_check.f90)
     FortUTF_Find_Tests()
 ENDIF()
 
