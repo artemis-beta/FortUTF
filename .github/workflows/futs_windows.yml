@@ -8,24 +8,16 @@ jobs:
     runs-on: 'windows-latest'
     steps:
       - uses: actions/checkout@v2
-      - name: Install GFortran Windows
-        uses: msys2/setup-msys2@v2
-        with:
-            update: true
-            install: >-
-                gcc-fortran
-                make
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.12
         with:
           cmake-version: '3.20.x'
       - name: Build Tests
-        shell: msys2 {0}
         run: |
-            cmake -H. -Bbuild -DBUILD_TESTS=ON
+            choco upgrade mingw --version="'10.2.0'" -y
+            cmake -G "MinGW Makefiles" -Bbuild -DBUILD_TESTS=ON
             cmake --build build
       - name: Run Tests
-        shell: msys2 {0}
         run: |
              ./build/FortUTF_Tests
              if [ $? -eq 0 ]; then
