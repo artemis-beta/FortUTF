@@ -3,10 +3,9 @@ name: FortUTF Windows GFortran 10
 on: [push]
 
 jobs:
-  build: 
+  build:
     name: 'Windows Latest'
     runs-on: 'windows-latest'
-    
     steps:
       - uses: actions/checkout@v2
       - name: Install GFortran Windows
