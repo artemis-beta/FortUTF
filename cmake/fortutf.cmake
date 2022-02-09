@@ -79,7 +79,7 @@ function(FortUTF_Find_Tests)
         write_file( ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90 "    USE ${TEST_MODULE}" APPEND )
     endforeach()
 
-    foreach( SUBROUTINE ${TEST_SUBROUTINES} )
+    foreach( SUBROUTINE ${TEST_SUBROUTINES_LIST} )
         write_file( ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90 "    CALL ${SUBROUTINE}" APPEND )
     endforeach()
 
