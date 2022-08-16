@@ -30,11 +30,13 @@ jobs:
                 exit 1
              fi
       - name: Get Coverage Data
+        continue-on-error: true
         run: |
             sudo apt install -y lcov
             lcov --gcov-tool $(which gcov) --directory . --capture --output-file temp.info -b src/
             lcov --remove temp.info 'tests/*' 'tests/test_assertions/*' -o FortUTF.info
       - uses: codecov/codecov-action@v1
+        continue-on-error: true
         with:
           file: FortUTF.info
           fail_ci_if_error: true
