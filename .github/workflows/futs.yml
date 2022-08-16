@@ -1,21 +1,23 @@
-name: FortUTF Ubuntu GFortran 10
+name: FortUTF Ubuntu GFortran 12
 
 on: [push]
 
 jobs:
   build:
     name: Ubuntu Latest Tests
-    runs-on: 'ubuntu-20.04'
+    runs-on: 'ubuntu-22.04'
     steps:
       - uses: actions/checkout@v2
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.12
         with:
-          cmake-version: '3.20.x'
+          cmake-version: '3.24.x'
+      - name: Install GFortran 12
+        run: sudo apt install -y gfortran-12
       - name: Build Tests
         run: |
-            gfortran-10 --version
-            cmake -H. -Bbuild -DBUILD_TESTS=ON -DCMAKE_Fortran_COMPILER=$(which gfortran-10)
+            gfortran-12 --version
+            cmake -H. -Bbuild -DBUILD_TESTS=ON -DCMAKE_Fortran_COMPILER=$(which gfortran-12)
             cmake --build build
       - name: Run Tests
         run: |
