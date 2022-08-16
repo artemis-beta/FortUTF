@@ -74,7 +74,7 @@ MODULE FUTF_SUITE
             ENDIF
             RETURN
         ENDIF
-        
+
         IF(.NOT. PRESENT(QUIET)) THEN
             WRITE(*,*) REPEAT("-", 54)
             WRITE(N_TEST_STR, '(A, i0, A)') "GATHERED ",SIZE(TEST_RESULTS)," TESTS:"

@@ -24,22 +24,22 @@ function(FortUTF_Find_Tests)
 
     list(APPEND TEST_LIST ${TESTS})
 
-    join("${TEST_LIST}" " " TEST_LIST_ARG)
-
-    message(STATUS "\tTests Files Found: ")
+    list(LENGTH TEST_LIST NUM_FILES)
+    message(STATUS "\t${NUM_FILES} Tests Files Found: ")
     foreach(TEST_NAME ${TEST_LIST})
         message(STATUS "\t  - ${TEST_NAME}")
+        file(READ "${TEST_NAME}" TEST_FILE_CONTENTS)
+        string(TOUPPER "${TEST_FILE_CONTENTS}" TEST_FILE_CONTENTS)
+        string(REGEX MATCHALL "SUBROUTINE[ ]([a-zA-Z0-9\_]+)" TEST_SUBROUTINES_REGMATCH ${TEST_FILE_CONTENTS})
+        list(APPEND TEST_SUBROUTINES ${TEST_SUBROUTINES_REGMATCH})
+        string(REGEX MATCHALL "MODULE[ ]([a-zA-Z0-9\_]+)" TEST_MODULES_REGMATCH ${TEST_FILE_CONTENTS})
+        list(APPEND TEST_MODULES ${TEST_MODULES_REGMATCH})
     endforeach()
 
-    EXECUTE_PROCESS(
-        COMMAND bash -c "for i in ${TEST_LIST_ARG}; do cat $i | grep -i \"^[[:space:]]*SUBROUTINE\" | rev | cut -d ' ' -f 1 | rev; done"
-        OUTPUT_VARIABLE TEST_SUBROUTINES
-    )
-
-    EXECUTE_PROCESS(
-        COMMAND bash -c "for i in ${TEST_LIST_ARG}; do cat $i | grep -i \"^[[:space:]]*MODULE\" | rev | cut -d ' ' -f 1 | rev; done"
-        OUTPUT_VARIABLE TEST_MODULES
-    )
+    list(REMOVE_DUPLICATES TEST_SUBROUTINES)
+    list(REMOVE_DUPLICATES TEST_MODULES)
+    list(LENGTH TEST_SUBROUTINES NUM_TESTS)
+    list(LENGTH TEST_MODULES NUM_MODULES)
 
     string(REGEX REPLACE "\n" " " TEST_SUBROUTINES "${TEST_SUBROUTINES}")
     string(REGEX REPLACE "\n" " " TEST_MODULES "${TEST_MODULES}")
@@ -59,18 +59,21 @@ function(FortUTF_Find_Tests)
     list(REMOVE_ITEM TEST_MODULES_LIST module)
     join("${TEST_SUBROUTINES_LIST}" " " TEST_SUBROUTINES)
     join("${TEST_MODULES_LIST}" " " TEST_MODULES)
-    message(STATUS "\tTests Found: ")
+
+    if(NOT TEST_SUBROUTINES_LIST)
+        message(FATAL_ERROR "\tNo Tests Found.")
+    else()
+        message(STATUS "\t${NUM_TESTS} Tests Found: ")
+    endif()
     foreach(SUBROOT ${TEST_SUBROUTINES_LIST})
         message(STATUS "\t  - ${SUBROOT}")
     endforeach()
     if(TEST_MODULES_LIST)
-        message(STATUS "\tWill Include Modules: ")
+        message(STATUS "\tWill Include ${NUM_MODULES} Modules: ")
         foreach(MODULE ${TEST_MODULES_LIST})
             message(STATUS "\t  - ${MODULE}")
         endforeach()
     endif()
-
-    message(STATUS ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90 )
 
     write_file( ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90 "PROGRAM TEST_${PROJECT_NAME}" )
     write_file( ${FORTUTF_PROJECT_TEST_DIR}/run_tests.f90 "    USE FORTUTF" APPEND )
