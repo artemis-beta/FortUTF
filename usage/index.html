@@ -112,10 +112,16 @@ IF( BUILD_TESTS )
     ...
 ENDIF()
 </code></pre>
-<p>The script will automatically locate any tests within the project matching the pattern <code>test_*.f90</code>, and create a new script <code>run_tests.f90</code> within the tests directory which will be compiled.</p>
+<p>The script will automatically locate any tests within the project matching the pattern <code>test_*.f90</code>, and create a new script <code>run_tests.f90</code> within the build directory which will be compiled.</p>
 <h1 id="writing-unit-tests">Writing Unit tests<a class="headerlink" href="#writing-unit-tests" title="Permanent link">#</a></h1>
 <p>To write unit tests create an F90 script prefixed with <code>test_</code> in a test directory and write the tests as subroutines within a modules.</p>
-<p>The subroutine <code>TAG_TEST</code> should be called prior to the assertion to provide an identifier for recognising the test within the results should it fail.</p>
+<p>The subroutine <code>TAG_TEST</code> can be called prior to the assertion to provide an identifier for recognising the test within the results should it fail, if a tag is not provided the test will be named <code>Test &lt;N&gt;</code> where <code>N</code> is the test number.</p>
+<h1 id="running-the-tests">Running the Tests<a class="headerlink" href="#running-the-tests" title="Permanent link">#</a></h1>
+<p>The compiled test binary named in the form <code>&lt;PROJECT_NAME&gt;_Tests</code> can be run either with arguments which will execute all tests, or by providing the names of the tests to run:</p>
+<pre><code class="language-bash">./build/MyProject_Tests
+</code></pre>
+<pre><code class="language-bash">./build/MyProject_Tests TEST_FOOBAR
+</code></pre>
 <h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">#</a></h3>
 <h4 id="project-source-file">Project source file<a class="headerlink" href="#project-source-file" title="Permanent link">#</a></h4>
 <pre><code class="language-fortran">! my_functions.f90

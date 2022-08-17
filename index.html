@@ -89,8 +89,10 @@
             <div class="section">
               
                 <h1 id="fortran-unit-test-framework">FORTRAN Unit Test Framework<a class="headerlink" href="#fortran-unit-test-framework" title="Permanent link">#</a></h1>
-<p>FortUTF is a purely FORTRAN-ic unit test framework compatible with FORTRAN 90 code. It contains a set of subroutines which can be used to check outputs of methods.</p>
+<p>FortUTF is a purely FORTRAN-ic unit test framework compatible with FORTRAN 90 code. It contains a set of subroutines which can be used to check outputs of methods. Note FortUTF makes use of subroutines available in Fortran-2008 so a compatible compiler is required.</p>
 <p>FortUTF has been confirmed to work under Linux, macOS and Windows via MSYS.</p>
+<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">#</a></h2>
+<p>FortUTF is based on the generation of scripts during the configuration stage of a CMake build, as such a version of CMake &gt;= 3.20 is recommended. All test subroutines are added to a generated FORTRAN script along with additional functionality required to handle selection of tests from the command line, visual feedback and correct exit status.</p>
               
             </div>
           </div>
@@ -139,5 +141,5 @@
 
 <!--
 MkDocs version : 1.2.3
-Build Date UTC : 2022-01-21 17:45:14.101438+00:00
+Build Date UTC : 2022-08-17 22:25:40.839765+00:00
 -->
