@@ -8,6 +8,8 @@ A purely FORTRANic framework for testing FORTRAN code
 
 [![codecov](https://codecov.io/gh/artemis-beta/FortUTF/branch/master/graph/badge.svg?token=tIwLkKYQ98)](https://codecov.io/gh/artemis-beta/FortUTF)
 
+**NOTE**: FortUTF DOES currently work for GFortran 11 on Windows, for some reason the CI on GitHub is having issues.
+
 ## Introduction
 
 FortUTF is Unit Test framework written purely in FORTRAN to be compatible with as many projects as possible. The framework is still in development so documentation is limited, but I promise once it is complete documentation will be a priority. For now I will introduce the basics.
