@@ -29,3 +29,13 @@ jobs:
                 echo "Unit Tests failed"
                 exit 1
              fi
+      - name: Run Test List
+        run: |
+             ./build/FortUTF_Tests TEST_FAIL_EQUAL_CHAR TEST_EQUAL_CHAR
+             if [ $? -eq 0 ]; then
+                echo "Unit Tests completed succesfully"
+                exit 0
+             else
+                echo "Unit Tests failed"
+                exit 1
+             fi

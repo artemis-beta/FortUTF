@@ -74,7 +74,7 @@ MODULE TEST_DEMO_FUNCTIONS
 END MODULE TEST_DEMO_FUNCTIONS
 ```
 
-Firstly we must include the `FORTUTF` module in every test script, then in order for FortUFT to be able to provide labels to any failing tests we tag using the `TAG_TEST` subroutine. Finally we call a test subroutine, and that's it!
+Firstly we must include the `FORTUTF` module in every test script, then in order for FortUFT to be able to provide labels to any failing tests we tag using the `TAG_TEST` subroutine (not providing a tag will name the test `Test <N>` where `N` is the test number). Finally we call a test subroutine, and that's it!
 
 To build this example we would then just run `cmake` within the project directory:
 
@@ -83,13 +83,13 @@ cmake -H. -Bbuild
 cmake --build build
 ```
 
-this will create a script `run_tests.f90` in `FORTUTF_PROJECT_TEST_DIR` and compile it into a binary.
+this will create a script `run_tests.f90` in the build directory and compile it into a binary.
 
 
 ## Running the Framework Unit Tests
 
 Even a test framework needs tests! FortUTF uses its own style of running to test
-all the assertions are behaving properly, to run the tests build them by 
+all the assertions are behaving properly, to run the tests build them by
 running cmake with the option:
 
 ```bash
@@ -97,15 +97,22 @@ cmake -H. -Bbuild -DBUILD_TESTS=ON
 cmake --build build
 ```
 
-the test binary can then be run:
+the compiled binary is always named `<PROJECT_NAME>_Tests` and is run to execute the tests:
 
-```
+```bash
 ./build/FortUTF_Tests
 ```
 
+Optionally you can specify tests to run by the tagged name:
+
+```bash
+./build/FortUTF_Tests TEST_FAIL_EQUAL_CHAR TEST_EQUAL_CHAR
+```
+
+
 ## Troubleshooting
 
-If you experience any problems: 
+If you experience any problems:
 
 - Try deleting the build directory and starting again.
 - Try putting the test subroutines into a module
