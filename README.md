@@ -13,7 +13,7 @@ A purely FORTRANic framework for testing FORTRAN code
 
 ## Introduction
 
-FortUTF is Unit Test framework written purely in FORTRAN to be compatible with as many projects as possible. The framework is still in development so documentation is limited, but I promise once it is complete documentation will be a priority. For now I will introduce the basics.
+FortUTF is Unit Test framework written purely in FORTRAN to be compatible with as many projects as possible, the basis for the test suite is template scripts constructed within CMake during configuration. The framework is still in development so documentation is limited, but I promise once it is complete documentation will be a priority. For now I will introduce the basics.
 
 
 ## Writing Tests
