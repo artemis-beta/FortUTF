@@ -3,7 +3,7 @@ SUBROUTINE TEST_ASSERT_NEQ_PASS_INT_1BYTE
     INTEGER(1) :: X, Y
     X = 2
     Y = 4
-    
+
     CALL TAG_TEST("TEST_ASSERT_NEQ_PASS_INT_1BYTE")
 
     ! As this test should pass we can leave the
@@ -63,7 +63,7 @@ SUBROUTINE TEST_ASSERT_NEQ_FAIL_INT_1BYTE
     INTEGER(1) :: X, Y
     X = 4
     Y = 4
-    
+
     CALL TAG_TEST("TEST_ASSERT_NEQ_FAIL_INT_1BYTE")
 
     CALL ASSERT_NOT_EQUAL(X, Y)
