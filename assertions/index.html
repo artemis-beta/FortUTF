@@ -62,6 +62,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#array-checking">Array Checking</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#specials">Specials</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -183,6 +185,10 @@
 <td><code>ASSERT_IS_CHARACTER(A)</code></td>
 <td>Assert that <span class="arithmatex">\(A\)</span> is a <code>CHARACTER</code> type</td>
 </tr>
+<tr>
+<td><code>ASSERT_IS_COMPLEX(A)</code></td>
+<td>Assert that <span class="arithmatex">\(A\)</span> is a <code>COMPLEX</code> type</td>
+</tr>
 </tbody>
 </table>
 <h2 id="array-checking">Array Checking<a class="headerlink" href="#array-checking" title="Permanent link">#</a></h2>
@@ -197,6 +203,25 @@
 <tr>
 <td><code>ASSERT_ARRAY_CONTAINS(X, A)</code></td>
 <td>Assert that array <span class="arithmatex">\(\textbf{X}\)</span> contains <span class="arithmatex">\(A\)</span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="specials">Specials<a class="headerlink" href="#specials" title="Permanent link">#</a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Subroutine</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FAIL</code></td>
+<td>Register a failure in a test subroutine</td>
+</tr>
+<tr>
+<td><code>SUCCEED</code></td>
+<td>Register a pass in a test subroutine</td>
 </tr>
 </tbody>
 </table>
