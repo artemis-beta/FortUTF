@@ -3,7 +3,7 @@ SUBROUTINE TEST_ASSERT_LT_PASS_INT_1BYTE
     INTEGER(1) :: Y, X
     X = 10
     Y = 4
-    
+
     CALL TAG_TEST("TEST_ASSERT_LT_PASS_INT_1BYTE")
 
     ! As this test should pass we can leave the
@@ -63,7 +63,7 @@ SUBROUTINE TEST_ASSERT_LT_FAIL_INT_1BYTE
     INTEGER(1) :: Y, X
     X = 1
     Y = 4
-    
+
     CALL TAG_TEST("TEST_ASSERT_LT_FAIL_INT_1BYTE")
 
     CALL ASSERT_LESS_THAN(Y, X)
