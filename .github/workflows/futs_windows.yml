@@ -19,4 +19,6 @@ jobs:
             cmake -G "Unix Makefiles" -Bbuild -DBUILD_TESTS=ON
             cmake --build build
       - name: Run Tests
-        run: .\build\FortUTF_Tests.exe
+        shell: bash
+        run: ./build/FortUTF_Tests
+
