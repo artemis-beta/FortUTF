@@ -19,13 +19,4 @@ jobs:
             cmake -G "Unix Makefiles" -Bbuild -DBUILD_TESTS=ON
             cmake --build build
       - name: Run Tests
-        shell: bash
-        run: |
-             ./build/FortUTF_Tests
-             if [ $? -eq 0 ]; then
-                echo "Unit Tests completed succesfully"
-                exit 0
-             else
-                echo "Unit Tests failed"
-                exit 1
-             fi
+        run: .\build\FortUTF_Tests.exe
