@@ -21,12 +21,24 @@ IF( BUILD_TESTS )
     ...
 ENDIF()
 ```
-The script will automatically locate any tests within the project matching the pattern `test_*.f90`, and create a new script `run_tests.f90` within the tests directory which will be compiled.
+The script will automatically locate any tests within the project matching the pattern `test_*.f90`, and create a new script `run_tests.f90` within the build directory which will be compiled.
 
 # Writing Unit tests
 To write unit tests create an F90 script prefixed with `test_` in a test directory and write the tests as subroutines within a modules.
 
-The subroutine `TAG_TEST` should be called prior to the assertion to provide an identifier for recognising the test within the results should it fail.
+The subroutine `TAG_TEST` can be called prior to the assertion to provide an identifier for recognising the test within the results should it fail, if a tag is not provided the test will be named `Test <N>` where `N` is the test number.
+
+# Running the Tests
+
+The compiled test binary named in the form `<PROJECT_NAME>_Tests` can be run either with arguments which will execute all tests, or by providing the names of the tests to run:
+
+```bash
+./build/MyProject_Tests
+```
+
+```bash
+./build/MyProject_Tests TEST_FOOBAR
+```
 
 ### Example
 
