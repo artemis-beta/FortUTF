@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 
 set( FORTUTF FortUTF )
 
-project( ${FORTUTF} VERSION 0.1.2 LANGUAGES Fortran )
+project( ${FORTUTF} VERSION 0.1.4 LANGUAGES Fortran )
 
 file(GLOB FUTF_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.f90)
 
