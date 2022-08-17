@@ -41,6 +41,13 @@ MODULE FUTF_SUITE
         NTESTS = SIZE(TEST_NAMES)
         N_FAILED = FUTF_TOTAL-FUTF_PASSED
 
+        ! If the status reset has been called then the exit
+        ! code may be set to 0 despite the number of failed
+        ! tests being non-zero, this corrects for that
+        IF(N_FAILED > 0) THEN
+            FUTF_EXIT_CODE = 1
+        ENDIF
+
         DO I=1, NTESTS
             IF(TEST_RESULTS(I) == 'F') THEN
                 IFAILED = APPEND_INT(IFAILED, I)
@@ -105,5 +112,4 @@ MODULE FUTF_SUITE
             INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
         ENDIF
     END SUBROUTINE RESET_LAST_TEST_STATUS
-        
 END MODULE
