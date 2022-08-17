@@ -12,14 +12,11 @@ jobs:
         uses: jwlawson/actions-setup-cmake@v1.12
         with:
           cmake-version: '3.24.x'
-      - name: Build Tests
+      - name: Build and Run Tests
         run: |
             choco upgrade mingw --version="'11.2.0'" -y
             choco install -y make
             cmake -G "Unix Makefiles" -Bbuild -DBUILD_TESTS=ON
             cmake --build build
-            ls build
-      - name: Run Tests
-        shell: bash
-        run: ./build/FortUTF_Tests.exe
+            ./build/FortUTF_Tests.exe
 
