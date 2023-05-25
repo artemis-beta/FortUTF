@@ -110,10 +110,10 @@ function(FortUTF_Find_Tests)
     write_file( ${FORTUTF_PROJECT_TEST_SCRIPT} "    CALL TEST_SUMMARY" APPEND )
     write_file( ${FORTUTF_PROJECT_TEST_SCRIPT} "END PROGRAM" APPEND )
 
+    if(NOT DEFINED ${FORTUTF})
+        set(FORTUTF FortUTF)
+    endif()
     if(NOT TARGET ${FORTUTF})
-        if(NOT DEFINED ${FORTUTF})
-            set(FORTUTF FortUTF)
-        endif()
         ADD_LIBRARY(${FORTUTF} ${FORTUTF_SRCS})
     endif()
 
