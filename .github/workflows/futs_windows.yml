@@ -1,4 +1,4 @@
-name: FortUTF Windows GFortran 11
+name: FortUTF Windows GFortran 12
 
 on: [push]
 
@@ -19,5 +19,5 @@ jobs:
             cmake -G "Unix Makefiles" -Bbuild -DBUILD_TESTS=ON
             cmake --build build
       - name: Run Tests
-        run: ./build/FortUTF_Tests.exe
+        run: .\build\FortUTF_Tests.exe
 
