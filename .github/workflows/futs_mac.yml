@@ -12,7 +12,7 @@ jobs:
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.12
         with:
-          cmake-version: '3.24.x'
+          cmake-version: '3.27.x'
       - name: Install GFortran macOS
         run: brew install gcc@12
       - name: Build Tests
