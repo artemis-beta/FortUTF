@@ -7,9 +7,9 @@ jobs:
     name: Ubuntu Latest Tests
     runs-on: 'ubuntu-22.04'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup cmake
-        uses: jwlawson/actions-setup-cmake@v1.12
+        uses: jwlawson/actions-setup-cmake@v1.14
         with:
           cmake-version: '3.27.x'
       - name: Install GFortran 12
@@ -45,7 +45,7 @@ jobs:
             sudo apt install -y lcov
             lcov --gcov-tool $(which gcov) --directory . --capture --output-file temp.info -b src/
             lcov --remove temp.info 'tests/*' 'tests/test_assertions/*' -o FortUTF.info
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v3
         continue-on-error: true
         with:
           file: FortUTF.info
