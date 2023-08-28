@@ -7,9 +7,9 @@ jobs:
     name: 'Windows Latest'
     runs-on: 'windows-latest'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup cmake
-        uses: jwlawson/actions-setup-cmake@v1.12
+        uses: jwlawson/actions-setup-cmake@v1.14
         with:
           cmake-version: '3.27.x'
       - name: Build and Run Tests
