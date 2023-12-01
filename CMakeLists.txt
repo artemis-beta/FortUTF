@@ -11,6 +11,8 @@ message(STATUS "\tUsing compiler: ${CMAKE_Fortran_COMPILER}")
 option(BUILD_TESTS "Build the FortUTF Unit Tests" OFF)
 option(BUILD_EXAMPLES "Build the FortUTF Example Project" OFF)
 
+set(Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+
 if(NOT BUILD_TESTS)
     add_library(${FORTUTF} ${FUTF_SRCS})
     set_target_properties(
@@ -28,9 +30,9 @@ endif()
 if(BUILD_TESTS)
     set(CMAKE_Fortran_FLAGS "-Wall -Wextra -Wno-compare-reals -Wno-maybe-uninitialized -Wno-uninitialized -O3 -g -fprofile-arcs -ftest-coverage")
     include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/fortutf.cmake)
-	set(FORTUTF_PROJECT_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
-    set(FORTUTF_PROJECT_SRC_FILES ${FUTF_SRCS})
-    list(APPEND TEST_LIST ${CMAKE_SOURCE_DIR}/tests/test_suite/unfinished_test_check.f90)
+    set(FORTUTF_PROJECT_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
+    set(FORTUTF_PROJECT_TEST_FILES ${CMAKE_SOURCE_DIR}/tests/test_suite/unfinished_test_check.f90)
+    set(FORTUTF_PROJECT_SRC_LIBRARY ${FORTUTF})
     FortUTF_Find_Tests()
 ENDIF()
 
