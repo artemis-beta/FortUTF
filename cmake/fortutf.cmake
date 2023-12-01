@@ -11,7 +11,8 @@ function(FortUTF_Find_Tests)
         set(FORTUTF_PROJECT_TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
     endif()
 
-    set(FORTUTF_DIR ${PROJECT_SOURCE_DIR})
+    get_filename_component(FORTUTF_DIR ${CMAKE_CURRENT_FUNCTION_LIST_FILE} DIRECTORY)
+    get_filename_component(FORTUTF_DIR ${FORTUTF_DIR} DIRECTORY)
 
     FILE(GLOB FORTUTF_SRCS ${FORTUTF_DIR}/src/*.f90)
 
