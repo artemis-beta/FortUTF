@@ -134,7 +134,7 @@ function(FortUTF_Find_Tests)
 
     FILE(GLOB_RECURSE TESTS ${FORTUTF_PROJECT_TEST_DIR}/test_*.f90)
 
-    list(APPEND TEST_LIST ${TESTS})
+    list(APPEND TEST_LIST ${TESTS} ${FORTUTF_PROJECT_TEST_FILES})
 
     list(LENGTH TEST_LIST NUM_FILES)
 
@@ -253,14 +253,16 @@ function(FortUTF_Find_Tests)
     write_file( ${FORTUTF_PROJECT_TEST_SCRIPT} "    CALL TEST_SUMMARY" APPEND )
     write_file( ${FORTUTF_PROJECT_TEST_SCRIPT} "END PROGRAM" APPEND )
 
+    if(NOT DEFINED ${FORTUTF})
+        set(FORTUTF FortUTF)
+    endif()
     if(NOT TARGET ${FORTUTF})
-        if(NOT DEFINED ${FORTUTF})
-            set(FORTUTF FortUTF)
-        endif()
         ADD_LIBRARY(${FORTUTF} ${FORTUTF_SRCS})
     endif()
 
-    add_executable(${PROJECT_NAME}_Tests ${FORTUTF_PROJECT_SRC_FILES} ${FORTUTF_SRCS} ${TEST_LIST} ${FORTUTF_PROJECT_TEST_SCRIPT})
+    add_executable(${PROJECT_NAME}_Tests ${FORTUTF_PROJECT_SRC_FILES} ${TEST_LIST} ${FORTUTF_PROJECT_TEST_SCRIPT})
+
+    target_include_directories(${PROJECT_NAME}_Tests PUBLIC ${Fortran_MODULE_DIRECTORY})
 
     if(FORTUTF_PROJECT_MOD_DIR)
         message(STATUS "\tIncluding library: ${FORTUTF_PROJECT_MOD_DIR}")
