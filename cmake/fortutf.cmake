@@ -114,7 +114,12 @@ function(FortUTF_Find_Tests)
         set(FORTUTF FortUTF)
     endif()
     if(NOT TARGET ${FORTUTF})
-        ADD_LIBRARY(${FORTUTF} ${FORTUTF_SRCS})
+        add_library(${FORTUTF} ${FORTUTF_SRCS})
+        set_target_properties(
+            ${FORTUTF}
+            PROPERTIES
+            Fortran_MODULE_DIRECTORY ${Fortran_MODULE_DIRECTORY}
+        )
     endif()
 
     add_executable(${PROJECT_NAME}_Tests ${FORTUTF_PROJECT_SRC_FILES} ${TEST_LIST} ${FORTUTF_PROJECT_TEST_SCRIPT})

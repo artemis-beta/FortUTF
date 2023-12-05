@@ -11,19 +11,24 @@ message(STATUS "\tUsing compiler: ${CMAKE_Fortran_COMPILER}")
 option(BUILD_TESTS "Build the FortUTF Unit Tests" OFF)
 option(BUILD_EXAMPLES "Build the FortUTF Example Project" OFF)
 
-set(Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+get_directory_property(hasParent PARENT_DIRECTORY)
+if(hasParent)
+  set(Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/modules PARENT_SCOPE)
+else()
+  set(Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/modules)
+endif()
 
 if(NOT BUILD_TESTS)
     add_library(${FORTUTF} ${FUTF_SRCS})
     set_target_properties(
         ${FORTUTF}
         PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/bin"
     )
     set_target_properties(
         ${FORTUTF}
         PROPERTIES
-        Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/modules
+        Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/modules
     )
 endif()
 
