@@ -118,7 +118,7 @@ function(FortUTF_Find_Tests)
         set_target_properties(
             ${FORTUTF}
             PROPERTIES
-            Fortran_MODULE_DIRECTORY "${Fortran_MODULE_DIRECTORY}"
+            Fortran_MODULE_DIRECTORY ${Fortran_MODULE_DIRECTORY}
         )
     endif()
 

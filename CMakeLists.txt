@@ -28,7 +28,7 @@ if(NOT BUILD_TESTS)
     set_target_properties(
         ${FORTUTF}
         PROPERTIES
-        Fortran_MODULE_DIRECTORY "${Fortran_MODULE_DIRECTORY}"
+        Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/modules
     )
 endif()
 
