@@ -398,11 +398,11 @@ MODULE FUTF_ASSERTIONS
 
         IF(COMPARE) THEN
             CALL REGISTER_PASSED
-            WRITE(FORMAT_STR, '("(''ASSERT_EQUAL:'', ", I4, "(X, F0.5), '' =='', ", I4, "(X, F0.5))")') SIZE(REAL_1), SIZE(REAL_2)
+            WRITE(FORMAT_STR, '("(''ASSERT_EQUAL:'', ", I4, "(1X, F0.5), '' =='', ", I4, "(1X, F0.5))")') SIZE(REAL_1), SIZE(REAL_2)
             WRITE(INFO, FORMAT_STR) REAL_1, REAL_2
         ELSE
             CALL REGISTER_FAILED
-            WRITE(FORMAT_STR, '("(''ASSERT_EQUAL:'', ", I4, "(X, F0.5), '' !='', ", I4, "(X, F0.5))")') SIZE(REAL_1), SIZE(REAL_2)
+            WRITE(FORMAT_STR, '("(''ASSERT_EQUAL:'', ", I4, "(1X, F0.5), '' !='', ", I4, "(1X, F0.5))")') SIZE(REAL_1), SIZE(REAL_2)
             WRITE(INFO, FORMAT_STR) REAL_1, REAL_2
         END IF
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
@@ -433,11 +433,11 @@ MODULE FUTF_ASSERTIONS
 
         IF(COMPARE) THEN
             CALL REGISTER_PASSED
-            WRITE(FORMAT_STR, '("(''ASSERT_EQUAL:'', ", I4, "(X, F0.5), '' =='', ", I4, "(X, F0.5))")') SIZE(REAL_1), SIZE(REAL_2)
+            WRITE(FORMAT_STR, '("(''ASSERT_EQUAL:'', ", I4, "(1X, F0.5), '' =='', ", I4, "(1X, F0.5))")') SIZE(REAL_1), SIZE(REAL_2)
             WRITE(INFO, FORMAT_STR) REAL_1, REAL_2
         ELSE
             CALL REGISTER_FAILED
-            WRITE(FORMAT_STR, '("(''ASSERT_EQUAL:'', ", I4, "(X, F0.5), '' !='', ", I4, "(X, F0.5))")') SIZE(REAL_1), SIZE(REAL_2)
+            WRITE(FORMAT_STR, '("(''ASSERT_EQUAL:'', ", I4, "(1X, F0.5), '' !='', ", I4, "(1X, F0.5))")') SIZE(REAL_1), SIZE(REAL_2)
             WRITE(INFO, FORMAT_STR) REAL_1, REAL_2
         END IF
         INFO_STRINGS = APPEND_CHAR(INFO_STRINGS, INFO, LEN(INFO))
