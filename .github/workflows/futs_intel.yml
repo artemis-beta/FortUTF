@@ -12,13 +12,12 @@ jobs:
         uses: jwlawson/actions-setup-cmake@v1.14
         with:
           cmake-version: '3.27.x'
-      - name: Install Intel ifort compiler
-        run: |
-            curl -Lo- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | sudo gpg --dearmor -o /usr/share/keyrings/oneapi-archive-keyring.gpg
-            sudo tee /etc/apt/sources.list.d/oneAPI.list <<< "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main"
-            sudo apt update
-            sudo apt install intel-oneapi-compiler-fortran
-            source /opt/intel/oneapi/setvars.sh
+      - name: Setup Intel ifort compiler
+        uses: fortran-lang/setup-fortran@v1
+        id: setup-fortran
+        with:
+          compiler: intel
+          version: '2023.2'
       - name: Build Tests
         run: |
             ifort --version
