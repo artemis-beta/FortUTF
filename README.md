@@ -10,7 +10,6 @@ A purely FORTRANic framework for testing FORTRAN code
 
 [![codecov](https://codecov.io/gh/artemis-beta/FortUTF/branch/master/graph/badge.svg?token=tIwLkKYQ98)](https://codecov.io/gh/artemis-beta/FortUTF)
 
-**NOTE**: FortUTF DOES currently work for GFortran 12 on Windows, for some reason the CI on GitHub is having issues.
 **NOTE**: As of `v0.1.4-alpha` a GFortran compiler supporting FORTRAN-2008 is required for test run command line arguments.
 
 ## Introduction
