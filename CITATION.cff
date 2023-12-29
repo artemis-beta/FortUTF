@@ -3,7 +3,9 @@
 
 cff-version: 1.2.0
 title: FortUTF
-message: A purely FORTRANic framework for testing FORTRAN code
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
 type: software
 authors:
   - given-names: Kristian
@@ -15,11 +17,7 @@ authors:
     family-names: Azizi
 repository-code: 'https://github.com/artemis-beta/FortUTF'
 url: 'https://artemis-beta.github.io/FortUTF/'
-abstract: >-
-  FortUTF is Unit Test framework written purely in FORTRAN
-  to be compatible with as many projects as possible, the
-  basis for the test suite is template scripts constructed
-  within CMake during configuration.
+abstract: A purely FORTRANic framework for testing FORTRAN code
 keywords:
   - fortran
   - test framework
