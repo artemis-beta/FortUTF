@@ -1,0 +1,31 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: FortUTF
+message: A purely FORTRANic framework for testing FORTRAN code
+type: software
+authors:
+  - given-names: Kristian
+    family-names: Zarebski
+    orcid: 'https://orcid.org/0000-0002-6773-1049'
+  - given-names: Yen-Chen
+    family-names: Chen
+  - given-names: Victor
+    family-names: Azizi
+repository-code: 'https://github.com/artemis-beta/FortUTF'
+url: 'https://artemis-beta.github.io/FortUTF/'
+abstract: >-
+  FortUTF is Unit Test framework written purely in FORTRAN
+  to be compatible with as many projects as possible, the
+  basis for the test suite is template scripts constructed
+  within CMake during configuration.
+keywords:
+  - fortran
+  - test framework
+  - unit test
+  - software testing
+license: AGPL-3.0-or-later
+commit: 8486192b6f0aced7aaf78f6f04ce6e1438743bcb
+version: 0.2.0-alpha
+date-released: '2023-12-29'
