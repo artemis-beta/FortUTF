@@ -41,7 +41,7 @@ jobs:
              fi
       - name: Run Example Tests
         run: |
-             ./build/examples/demo_project/DEMO_PROJ_Tests
+             ./build/examples/demo_project/DEMO_PROJ_Tests || 
              if [ $? -eq 1 ]; then
                 echo "Unit Tests failed as expected"
                 exit 0
