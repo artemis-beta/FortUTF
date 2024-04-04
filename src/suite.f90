@@ -113,7 +113,7 @@ MODULE FUTF_SUITE
 
         IF(.NOT. PRESENT(QUIET)) THEN
             IF(FUTF_EXIT_CODE == 1) THEN
-                STOP
+                ERROR STOP FUTF_EXIT_CODE
             ENDIF
         ENDIF
     END SUBROUTINE
