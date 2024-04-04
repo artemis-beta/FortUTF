@@ -112,7 +112,9 @@ MODULE FUTF_SUITE
         ENDIF
 
         IF(.NOT. PRESENT(QUIET)) THEN
-            IF(FUTF_EXIT_CODE == 1) THEN
+            IF(FUTF_EXIT_CODE == 0) THEN
+                STOP
+            ELSE
                 ERROR STOP FUTF_EXIT_CODE
             ENDIF
         ENDIF
