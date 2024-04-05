@@ -1,5 +1,7 @@
 # Unreleased
 
+- Fix added for exit status under GNU compiler.
+
 # [v0.2.0-alpha](https://github.com/artemis-beta/FortUTF/releases/tag/0.2.0-alpha) - 2023-12-29
 
 - Added compatibility with Intel and NAG compilers.
