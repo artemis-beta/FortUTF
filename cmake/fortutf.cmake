@@ -5,6 +5,9 @@ function(JOIN VALUES GLUE OUTPUT)
 endfunction()
 
 function(FortUTF_Find_Tests)
+
+    cmake_parse_arguments(PARSE_ARGV 0 ARG "" "" "OPTIONS;LIBRARIES")
+
     message(STATUS "[FortUTF]")
     message(STATUS "\tFinding tests in directory: ${FORTUTF_PROJECT_TEST_DIR}")
     if(NOT FORTUTF_PROJECT_TEST_DIR)
@@ -143,10 +146,23 @@ function(FortUTF_Find_Tests)
         )
     endif()
 
+    message(STATUS "\tLinking additional library: ${ARG_LIBRARIES}")
+
+    target_link_libraries(
+        ${PROJECT_NAME}_Tests ${ARG_LIBRARIES}
+    )
+
     message(STATUS "\tCompiler Flags: ${CMAKE_Fortran_FLAGS}")
 
     target_link_libraries(
         ${PROJECT_NAME}_Tests ${FORTUTF}
     )
+
+    target_compile_options(
+        ${PROJECT_NAME}_Tests
+        PRIVATE ${ARG_OPTIONS}
+    )
+
+    message(STATUS "\tAdditional compiler options: ${ARG_OPTIONS}")
 
 endfunction()
