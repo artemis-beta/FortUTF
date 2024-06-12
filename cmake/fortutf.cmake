@@ -6,7 +6,7 @@ endfunction()
 
 function(FortUTF_Find_Tests)
 
-    cmake_parse_arguments(PARSE_ARGV 0 ARG "" "" "OPTIONS;LIBRARIES")
+    cmake_parse_arguments(PARSE_ARGV 0 ARG "" "MODULE_DIRS" "OPTIONS;LIBRARIES")
 
     message(STATUS "[FortUTF]")
     message(STATUS "\tFinding tests in directory: ${FORTUTF_PROJECT_TEST_DIR}")
@@ -129,6 +129,12 @@ function(FortUTF_Find_Tests)
 
     target_include_directories(${PROJECT_NAME}_Tests PUBLIC ${Fortran_MODULE_DIRECTORY})
 
+    if(ARG_MODULE_DIRS)
+        message(STATUS "\tExternal module path: ${ARG_MODULE_DIRS}")
+
+        target_include_directories(${PROJECT_NAME}_Tests PUBLIC ${Fortran_MODULE_DIRECTORY})
+    endif()
+
     if(FORTUTF_PROJECT_MOD_DIR)
         message(STATUS "\tIncluding library: ${FORTUTF_PROJECT_MOD_DIR}")
         TARGET_INCLUDE_DIRECTORIES(
@@ -146,11 +152,13 @@ function(FortUTF_Find_Tests)
         )
     endif()
 
-    message(STATUS "\tLinking additional library: ${ARG_LIBRARIES}")
+    if(ARG_LIBRARIES)
+        message(STATUS "\tLinking additional library: ${ARG_LIBRARIES}")
 
-    target_link_libraries(
-        ${PROJECT_NAME}_Tests ${ARG_LIBRARIES}
-    )
+        target_link_libraries(
+            ${PROJECT_NAME}_Tests ${ARG_LIBRARIES}
+        )
+    endif()
 
     message(STATUS "\tCompiler Flags: ${CMAKE_Fortran_FLAGS}")
 
@@ -158,11 +166,13 @@ function(FortUTF_Find_Tests)
         ${PROJECT_NAME}_Tests ${FORTUTF}
     )
 
-    target_compile_options(
-        ${PROJECT_NAME}_Tests
-        PRIVATE ${ARG_OPTIONS}
-    )
+    if(ARG_OPTIONS)
+        target_compile_options(
+            ${PROJECT_NAME}_Tests
+            PRIVATE ${ARG_OPTIONS}
+        )
 
-    message(STATUS "\tAdditional compiler options: ${ARG_OPTIONS}")
+        message(STATUS "\tAdditional compiler options: ${ARG_OPTIONS}")
+    endif()
 
 endfunction()
