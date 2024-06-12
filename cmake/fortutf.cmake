@@ -132,7 +132,7 @@ function(FortUTF_Find_Tests)
     if(ARG_MODULE_DIRS)
         message(STATUS "\tExternal module path: ${ARG_MODULE_DIRS}")
 
-        target_include_directories(${PROJECT_NAME}_Tests PUBLIC ${Fortran_MODULE_DIRECTORY})
+        target_include_directories(${PROJECT_NAME}_Tests PUBLIC ${ARG_MODULE_DIRS})
     endif()
 
     if(FORTUTF_PROJECT_MOD_DIR)
