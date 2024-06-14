@@ -16,6 +16,7 @@ IF( BUILD_TESTS )
     SET(FORTUTF_PROJECT_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 
     # Set required project files variable e.g. files in 'src' directory within the project directory
+    # Or you can instead pass a built library into the FortUTF_Find_Tests() function.
     FILE( GLOB FORTUTF_PROJECT_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.f90 )
 
     # Include the FortUTF test finding script

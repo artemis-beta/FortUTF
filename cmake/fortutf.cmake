@@ -19,8 +19,10 @@ function(FortUTF_Find_Tests)
 
     FILE(GLOB FORTUTF_SRCS ${FORTUTF_DIR}/src/*.f90)
 
-    if(NOT FORTUTF_PROJECT_SRC_FILES AND NOT FORTUTF_PROJECT_SRC_LIBRARY)
-        message(FATAL_ERROR "Variable SRC_FILES or SRC_LIBRARY must be set")
+    if(NOT ARG_LIBRARIES)
+        if(NOT FORTUTF_PROJECT_SRC_FILES AND NOT FORTUTF_PROJECT_SRC_LIBRARY)
+            message(FATAL_ERROR "Variable SRC_FILES or SRC_LIBRARY must be set")
+        endif()
     endif()
 
     FILE(GLOB_RECURSE TESTS ${FORTUTF_PROJECT_TEST_DIR}/test_*.f90)
