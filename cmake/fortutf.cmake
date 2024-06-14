@@ -115,12 +115,12 @@ function(FortUTF_Find_Tests)
     write_file( ${FORTUTF_PROJECT_TEST_SCRIPT} "    CALL TEST_SUMMARY" APPEND )
     write_file( ${FORTUTF_PROJECT_TEST_SCRIPT} "END PROGRAM" APPEND )
 
+    set(Fortran_MODULE_DIRECTORY "${FORTUTF_DIR}/modules")
     if(NOT DEFINED ${FORTUTF})
         set(FORTUTF FortUTF)
     endif()
     if(NOT TARGET ${FORTUTF})
         add_library(${FORTUTF} ${FORTUTF_SRCS})
-        set(Fortran_MODULE_DIRECTORY "${FORTUTF_DIR}/modules")
         set_target_properties(
             ${FORTUTF}
             PROPERTIES
