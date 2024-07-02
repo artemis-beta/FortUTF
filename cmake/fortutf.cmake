@@ -5,6 +5,9 @@ function(JOIN VALUES GLUE OUTPUT)
 endfunction()
 
 function(FortUTF_Find_Tests)
+
+    cmake_parse_arguments(PARSE_ARGV 0 ARG "" "MODULE_DIRS" "OPTIONS;LIBRARIES")
+
     message(STATUS "[FortUTF]")
     message(STATUS "\tFinding tests in directory: ${FORTUTF_PROJECT_TEST_DIR}")
     if(NOT FORTUTF_PROJECT_TEST_DIR)
@@ -16,8 +19,10 @@ function(FortUTF_Find_Tests)
 
     FILE(GLOB FORTUTF_SRCS ${FORTUTF_DIR}/src/*.f90)
 
-    if(NOT FORTUTF_PROJECT_SRC_FILES AND NOT FORTUTF_PROJECT_SRC_LIBRARY)
-        message(FATAL_ERROR "Variable SRC_FILES or SRC_LIBRARY must be set")
+    if(NOT ARG_LIBRARIES)
+        if(NOT FORTUTF_PROJECT_SRC_FILES AND NOT FORTUTF_PROJECT_SRC_LIBRARY)
+            message(FATAL_ERROR "Variable SRC_FILES or SRC_LIBRARY must be set")
+        endif()
     endif()
 
     FILE(GLOB_RECURSE TESTS ${FORTUTF_PROJECT_TEST_DIR}/test_*.f90)
@@ -110,6 +115,7 @@ function(FortUTF_Find_Tests)
     write_file( ${FORTUTF_PROJECT_TEST_SCRIPT} "    CALL TEST_SUMMARY" APPEND )
     write_file( ${FORTUTF_PROJECT_TEST_SCRIPT} "END PROGRAM" APPEND )
 
+    set(Fortran_MODULE_DIRECTORY "${FORTUTF_DIR}/modules")
     if(NOT DEFINED ${FORTUTF})
         set(FORTUTF FortUTF)
     endif()
@@ -125,6 +131,12 @@ function(FortUTF_Find_Tests)
     add_executable(${PROJECT_NAME}_Tests ${FORTUTF_PROJECT_SRC_FILES} ${TEST_LIST} ${FORTUTF_PROJECT_TEST_SCRIPT})
 
     target_include_directories(${PROJECT_NAME}_Tests PUBLIC ${Fortran_MODULE_DIRECTORY})
+
+    if(ARG_MODULE_DIRS)
+        message(STATUS "\tExternal module path: ${ARG_MODULE_DIRS}")
+
+        target_include_directories(${PROJECT_NAME}_Tests PUBLIC ${ARG_MODULE_DIRS})
+    endif()
 
     if(FORTUTF_PROJECT_MOD_DIR)
         message(STATUS "\tIncluding library: ${FORTUTF_PROJECT_MOD_DIR}")
@@ -143,10 +155,27 @@ function(FortUTF_Find_Tests)
         )
     endif()
 
+    if(ARG_LIBRARIES)
+        message(STATUS "\tLinking additional library: ${ARG_LIBRARIES}")
+
+        target_link_libraries(
+            ${PROJECT_NAME}_Tests ${ARG_LIBRARIES}
+        )
+    endif()
+
     message(STATUS "\tCompiler Flags: ${CMAKE_Fortran_FLAGS}")
 
     target_link_libraries(
         ${PROJECT_NAME}_Tests ${FORTUTF}
     )
+
+    if(ARG_OPTIONS)
+        target_compile_options(
+            ${PROJECT_NAME}_Tests
+            PRIVATE ${ARG_OPTIONS}
+        )
+
+        message(STATUS "\tAdditional compiler options: ${ARG_OPTIONS}")
+    endif()
 
 endfunction()
