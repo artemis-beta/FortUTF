@@ -16,7 +16,7 @@ jobs:
         uses: jwlawson/actions-setup-cmake@v2
         with:
           cmake-version: '3.31.x'
-      - name: Setup Intel ifort compiler
+      - name: Setup Intel ifx compiler
         uses: fortran-lang/setup-fortran@v1
         id: setup-fortran
         with:
