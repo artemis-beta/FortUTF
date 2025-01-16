@@ -2,6 +2,10 @@ name: FortUTF Ubuntu Gfortran 13
 
 on: [push, pull_request]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Ubuntu Latest Tests

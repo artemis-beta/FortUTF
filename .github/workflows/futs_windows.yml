@@ -2,6 +2,10 @@ name: FortUTF Windows GFortran 13
 
 on: [push]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: 'Windows Latest'
